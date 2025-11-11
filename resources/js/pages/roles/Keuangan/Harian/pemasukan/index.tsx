@@ -83,7 +83,7 @@ export default function Pemasukan({ pemasukan: initialPemasukan }: { pemasukan: 
                     onSave={handleSaveEdit}
                 />
 
-                <PemasukanHeader createRoute={route('manajer-keuangan.harian.pemasukan.create')} />
+                <PemasukanHeader createRoute={route('keuangan.harian.pemasukan.create')} />
 
                 <div className="space-y-6">
                     <Tabs defaultValue="data">

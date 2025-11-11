@@ -361,7 +361,7 @@ export default function SumberDanaPage() {
                                             </Button>
                                         )}
                                         {sumber.tipe_sumber === 'Bank' && (
-                                            <Link href={route('manajer-keuangan.harian.rekening-bank.index')}>
+                                            <Link href={route('keuangan.harian.rekening-bank.index')}>
                                                 <Button variant="outline" size="sm">
                                                     Detail Rekening
                                                 </Button>

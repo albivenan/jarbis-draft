@@ -64,7 +64,7 @@ export default function Pengeluaran({ pengeluaran: initialPengeluaran }: { penge
                     onSave={handleSaveEdit}
                 />
 
-                <PengeluaranHeader createRoute={route('manajer-keuangan.harian.pengeluaran.create')} />
+                <PengeluaranHeader createRoute={route('keuangan.harian.pengeluaran.create')} />
 
                 <div className="space-y-6">
                     <Tabs defaultValue="data">

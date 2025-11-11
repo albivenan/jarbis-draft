@@ -26,7 +26,7 @@ class KaryawanController extends Controller
 
         $pendingChangeRequestsCount = PermintaanPerubahanData::where('status', 'pending')->count();
 
-        return Inertia::render('roles.manajer-hrd.karyawan.daftar', [
+        return Inertia::render('roles.hrd.karyawan.daftar', [
             'employees' => $employees->toArray(),
             'pendingChangeRequestsCount' => $pendingChangeRequestsCount,
         ]);
@@ -47,7 +47,7 @@ class KaryawanController extends Controller
             'identitasKaryawan.education',
         ])->firstOrFail();
 
-        return Inertia::render('roles/manajer-hrd/karyawan/daftar/Detail', [
+        return Inertia::render('roles/hrd/karyawan/daftar/Detail', [
             'employee' => $employee->toArray(),
         ]);
     }
@@ -69,7 +69,7 @@ class KaryawanController extends Controller
             $request->tipe_perubahan = ucwords(str_replace(['_', '-'], ' ', $request->tipe_perubahan));
         });
 
-        return Inertia::render('roles/manajer-hrd/karyawan/PermintaanPerubahanData', [
+        return Inertia::render('roles/hrd/karyawan/PermintaanPerubahanData', [
             'allRequests' => $allRequests->toArray(),
         ]);
     }

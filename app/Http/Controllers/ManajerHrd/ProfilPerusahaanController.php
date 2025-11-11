@@ -17,7 +17,7 @@ class ProfilPerusahaanController extends Controller
         // Calculate total employee count
         $totalEmployeeCount = User::whereNotIn('role', ['direktur', 'software_engineer'])->count();
 
-        return Inertia::render('roles.manajer-hrd.administrasi.profil-perusahaan', [
+        return Inertia::render('roles.hrd.administrasi.profil-perusahaan', [
             'profilPerusahaan' => $profilPerusahaan,
             'totalEmployeeCount' => $totalEmployeeCount,
         ]);

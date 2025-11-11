@@ -44,7 +44,7 @@ class TransaksiController extends Controller
 
         $sumberDanas = SumberDana::all(['id', 'nama_sumber', 'saldo']);
 
-        return Inertia::render('roles/Keuangan/keuangan-produk/transaksi/index', [
+        return Inertia::render('roles/keuangan/keuangan-produk/transaksi/index', [
             'pemasukanHarian' => $pemasukanHarian,
             'sumberDanas' => $sumberDanas,
             'filters' => [

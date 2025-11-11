@@ -46,7 +46,7 @@ class InformasiPelangganController extends Controller
             'total_revenue' => 2345000000, // Placeholder
         ];
 
-        return Inertia::render('roles/Keuangan/Penjualan/pelanggan/index', [
+        return Inertia::render('roles/keuangan/Penjualan/pelanggan/index', [
             'customers' => $customers,
             'kpiData' => $kpiData,
             'filters' => [
@@ -95,7 +95,7 @@ class InformasiPelangganController extends Controller
 
         $transactionHistory = [];
 
-        return Inertia::render('roles/Keuangan/Penjualan/pelanggan/show', [
+        return Inertia::render('roles/keuangan/Penjualan/pelanggan/show', [
             'customerDetails' => $customerDetails,
             'customerKpis' => $customerKpis,
             'transactionHistory' => $transactionHistory,

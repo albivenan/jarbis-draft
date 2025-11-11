@@ -33,7 +33,7 @@ interface ProductDataTableProps {
 export default function ProductDataTable({ products, filters }: ProductDataTableProps) {
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         router.get(
-            route('manajer-keuangan.keuangan-produk.persediaan'),
+            route('keuangan.keuangan-produk.persediaan'),
             { search: e.target.value },
             { preserveState: true, replace: true }
         );

@@ -36,13 +36,13 @@ export function AppSidebar() {
     // Role home mapping - Updated to match exact seeder role names
     const roleHomeMap: Record<string, string> = {
         'direktur': '/roles/direktur',
-        'manajer_hrd': '/roles/manajer-hrd',
+        'manajer_hrd': '/roles/hrd',
         'staf_hrd': '/roles/staf-hrd',
-        'manajer_keuangan': '/roles/manajer-keuangan',
+        'manajer_keuangan': '/roles/keuangan',
         'staf_keuangan': '/roles/staf-keuangan',
-        'manajer_ppic': '/roles/manajer-ppic',
+        'manajer_ppic': '/roles/ppic',
         'staf_ppic': '/roles/staf-ppic',
-        'manajer_marketing': '/roles/manajer-marketing',
+        'manajer_marketing': '/roles/marketing',
         'staf_marketing': '/roles/staf-marketing',
         'manajer_produksi_kayu': '/roles/manajer-produksi-kayu',
         'supervisor_kayu': '/roles/supervisor-kayu',

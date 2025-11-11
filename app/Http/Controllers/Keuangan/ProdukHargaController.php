@@ -5,70 +5,106 @@ namespace App\Http\Controllers\Keuangan;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\ProdukJual;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use App\Models\Keuangan\ProdukJual;
-use Carbon\Carbon;
 
 class ProdukHargaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $produkHarga = ProdukJual::with('diajukanOleh:id,name', 'disetujuiOleh:id,name')
-            ->latest('diajukan_pada')
-            ->paginate(10);
+        $filters = $request->only(['search', 'status']);
 
-        return Inertia::render('roles/Keuangan/keuangan-produk/harga/index', [
+        $produkHarga = ProdukJual::query()
+            ->with(['diajukanOleh', 'disetujuiOleh']) // Eager load relasi
+            ->when($filters['search'] ?? null, function ($query, $search) {
+                $query->where('nama_produk', 'like', '%' . $search . '%');
+            })
+            ->when($filters['status'] ?? null, function ($query, $status) {
+                $query->where('status', $status);
+            }, function ($query) {
+                // Default: tampilkan Menunggu Persetujuan Keuangan dan Banding Harga
+                $query->whereIn('status', ['Menunggu Persetujuan Keuangan', 'Banding Harga']);
+            })
+            ->orderBy('diajukan_pada', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+
+        return Inertia::render('roles/keuangan/keuangan-produk/harga/index', [
             'produkHarga' => $produkHarga,
-            'filters' => request()->only(['search', 'status']), // Placeholder for filters
+            'filters' => $filters,
         ]);
     }
 
-    /**
-     * Approve a product price proposal.
-     */
-    public function approve(Request $request, ProdukJual $produkHarga)
+    public function approve(Request $request, ProdukJual $produkJual)
     {
         $request->validate([
             'harga_disetujui_keuangan' => 'required|numeric|min:0',
             'margin_keuangan' => 'required|numeric|min:0|max:100',
         ]);
 
-        try {
-            $produkHarga->update([
-                'status' => 'Disetujui',
-                'harga_disetujui_keuangan' => $request->harga_disetujui_keuangan,
-                'margin_keuangan' => $request->margin_keuangan,
-                'disetujui_oleh_id' => Auth::id(),
-                'direspon_pada' => Carbon::now(),
-            ]);
-
-            return redirect()->back()->with('success', 'Usulan harga produk berhasil disetujui.');
-        } catch (\Exception $e) {
-            Log::error('Error approving Produk Jual price: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Gagal menyetujui usulan harga: ' . $e->getMessage());
+        // Pastikan status pesanan adalah 'Menunggu Persetujuan Keuangan'
+        if ($produkJual->status !== 'Menunggu Persetujuan Keuangan') {
+            return redirect()->back()
+                ->with('error', 'Pesanan tidak dalam status yang benar untuk disetujui.');
         }
+
+        $produkJual->update([
+            'harga_disetujui_keuangan' => $request->harga_disetujui_keuangan,
+            'margin_keuangan' => $request->margin_keuangan,
+            'status' => 'Disetujui',
+            'disetujui_oleh_id' => Auth::id(),
+            'direspon_pada' => now(),
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Usulan harga produk berhasil disetujui!');
     }
 
-    /**
-     * Reject a product price proposal.
-     */
-    public function reject(ProdukJual $produkHarga)
+    public function reject(Request $request, ProdukJual $produkJual)
     {
-        try {
-            $produkHarga->update([
-                'status' => 'Ditolak',
-                'disetujui_oleh_id' => Auth::id(),
-                'direspon_pada' => Carbon::now(),
-            ]);
-
-            return redirect()->back()->with('success', 'Usulan harga produk berhasil ditolak.');
-        } catch (\Exception $e) {
-            Log::error('Error rejecting Produk Jual price: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Gagal menolak usulan harga: ' . $e->getMessage());
+        // Pastikan status pesanan adalah 'Menunggu Persetujuan Keuangan' atau 'Banding Harga'
+        if (!in_array($produkJual->status, ['Menunggu Persetujuan Keuangan', 'Banding Harga'])) {
+            return redirect()->back()
+                ->with('error', 'Pesanan tidak dalam status yang benar untuk ditolak.');
         }
+
+        $request->validate([
+            'alasan_penolakan' => 'nullable|string',
+        ]);
+
+        $produkJual->update([
+            'status' => 'Ditolak',
+            'alasan_penolakan' => $request->alasan_penolakan,
+            'disetujui_oleh_id' => Auth::id(),
+            'direspon_pada' => now(),
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Usulan harga produk berhasil ditolak!');
+    }
+
+    public function approveBanding(Request $request, ProdukJual $produkJual)
+    {
+        $request->validate([
+            'harga_disetujui_keuangan' => 'required|numeric|min:0',
+            'margin_keuangan' => 'required|numeric|min:0|max:100',
+        ]);
+
+        // Pastikan status pesanan adalah 'Banding Harga'
+        if ($produkJual->status !== 'Banding Harga') {
+            return redirect()->back()
+                ->with('error', 'Pesanan tidak dalam status banding harga.');
+        }
+
+        $produkJual->update([
+            'harga_disetujui_keuangan' => $request->harga_disetujui_keuangan,
+            'margin_keuangan' => $request->margin_keuangan,
+            'status' => 'Disetujui',
+            'disetujui_oleh_id' => Auth::id(),
+            'direspon_pada' => now(),
+        ]);
+
+        return redirect()->back()
+            ->with('success', 'Banding harga berhasil disetujui!');
     }
 }

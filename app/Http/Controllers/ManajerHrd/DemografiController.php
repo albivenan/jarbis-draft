@@ -205,7 +205,7 @@ class DemografiController extends Controller
         }
 
 
-        return Inertia::render('roles/manajer-hrd/karyawan/demografi/index', [
+        return Inertia::render('roles/hrd/karyawan/demografi/index', [
             'overviewStats' => $overviewStats,
             'departmentAnalysis' => $departmentAnalysis,
             'selectedPeriod' => $selectedPeriod,

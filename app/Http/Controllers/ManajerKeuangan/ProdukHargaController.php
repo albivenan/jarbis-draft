@@ -29,7 +29,7 @@ class ProdukHargaController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('roles/Keuangan/keuangan-produk/harga/index', [
+        return Inertia::render('roles/keuangan/keuangan-produk/harga/index', [
             'produkHarga' => $produkHarga,
             'filters' => $filters,
         ]);

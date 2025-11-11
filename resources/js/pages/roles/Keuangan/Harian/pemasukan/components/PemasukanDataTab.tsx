@@ -128,7 +128,7 @@ const PemasukanDataTab: React.FC<PemasukanDataTabProps> = ({
                                                                                 </DropdownMenuTrigger>
                                                                                 <DropdownMenuContent align="end">
                                                                                     <DropdownMenuItem asChild>
-                                                                                        <Link href={route('manajer-keuangan.harian.pemasukan.edit', item.id)}>
+                                                                                        <Link href={route('keuangan.harian.pemasukan.edit', item.id)}>
                                                                                             <Pencil className="mr-2 h-4 w-4" />
                                                                                             <span>Edit</span>
                                                                                         </Link>

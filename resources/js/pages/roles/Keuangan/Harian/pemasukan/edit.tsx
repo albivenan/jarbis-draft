@@ -92,7 +92,7 @@ export default function EditPemasukan({ pemasukan }: { pemasukan: Pemasukan & { 
             return;
         }
 
-        put(route('manajer-keuangan.harian.pemasukan.update', pemasukan.id), {
+        put(route('keuangan.harian.pemasukan.update', pemasukan.id), {
             forceFormData: data.invoice !== null,
             onSuccess: () => {
                 toast.success('Pemasukan berhasil diperbarui.');
@@ -111,7 +111,7 @@ export default function EditPemasukan({ pemasukan }: { pemasukan: Pemasukan & { 
             <div className="space-y-6 max-w-4xl mx-auto">
                 <header className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <Link href={route('manajer-keuangan.harian.pemasukan.index')}>
+                        <Link href={route('keuangan.harian.pemasukan.index')}>
                             <ArrowLeft className="h-6 w-6" />
                         </Link>
                         <div>
@@ -257,7 +257,7 @@ export default function EditPemasukan({ pemasukan }: { pemasukan: Pemasukan & { 
                             </div>
 
                             <div className="flex justify-end gap-4 pt-4">
-                                <Link href={route('manajer-keuangan.harian.pemasukan.index')} className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2">
+                                <Link href={route('keuangan.harian.pemasukan.index')} className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2">
                                     Batal
                                 </Link>
                                 <Button type="submit" disabled={processing}>

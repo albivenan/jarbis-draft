@@ -46,7 +46,7 @@ class PpicPembelianBahanBakuController extends Controller
 
         $purchaseRequests = $query->paginate(10)->withQueryString();
 
-        return Inertia::render('roles/manajer-ppic/inventaris/pembelian/index', [
+        return Inertia::render('roles/ppic/inventaris/pembelian/index', [
             'purchaseRequests' => $purchaseRequests,
             'filters' => $request->only(['date', 'search', 'status']), // Pass current filters back
         ]);
@@ -59,7 +59,7 @@ class PpicPembelianBahanBakuController extends Controller
     {
         $bahanBakuList = BahanBaku::all(['id', 'nama_bahan_baku', 'satuan_dasar', 'harga_standar']);
 
-        return Inertia::render('roles/manajer-ppic/inventaris/pembelian/create', [
+        return Inertia::render('roles/ppic/inventaris/pembelian/create', [
             'bahanBakuList' => $bahanBakuList,
         ]);
     }

@@ -324,7 +324,7 @@ class PayrollController extends Controller
 
         Log::debug('HRD BATCHES BEFORE INERTIA RENDER', $batches);
 
-        return Inertia::render('roles/manajer-hrd/penggajian/proses', [
+        return Inertia::render('roles/hrd/penggajian/proses', [
             'employees' => $employees,
             'batches' => $batches,
             'payrollStatus' => $payrollStatus,
@@ -869,7 +869,7 @@ class PayrollController extends Controller
             Log::info('Payroll batch submitted successfully', ['batch_id' => $batch->id]);
 
             // Redirect without period to clear employee list
-            return redirect()->route('manajer-hrd.penggajian.proses')->with('success', "Batch penggajian ({$batch->batch_code}) berhasil dikirim ke keuangan.");
+            return redirect()->route('hrd.penggajian.proses')->with('success', "Batch penggajian ({$batch->batch_code}) berhasil dikirim ke keuangan.");
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -1726,7 +1726,7 @@ class PayrollController extends Controller
                 DB::commit();
                 
                 return redirect()
-                    ->route('manajer-hrd.penggajian.proses', ['period' => $period])
+                    ->route('hrd.penggajian.proses', ['period' => $period])
                     ->with('success', "Pengajuan {$employeeName} berhasil dibatalkan dan dikembalikan ke Input Data Variabel.");
             } 
             
@@ -1742,7 +1742,7 @@ class PayrollController extends Controller
                 DB::commit();
                 
                 return redirect()
-                    ->route('manajer-hrd.penggajian.proses', ['period' => $period])
+                    ->route('hrd.penggajian.proses', ['period' => $period])
                     ->with('success', "Batch {$batchCode} berhasil dibatalkan. {$totalEmployees} karyawan dikembalikan ke Input Data Variabel.");
             }
         } catch (\Exception $e) {

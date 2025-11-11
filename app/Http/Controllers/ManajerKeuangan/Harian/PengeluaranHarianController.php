@@ -25,7 +25,7 @@ class PengeluaranHarianController extends Controller
             ->latest()
             ->get();
 
-        return Inertia::render('roles.Keuangan.Harian.pengeluaran.index', [
+        return Inertia::render('roles.keuangan.Harian.pengeluaran.index', [
             'pengeluaran' => $pengeluaran,
         ]);
     }
@@ -50,7 +50,7 @@ class PengeluaranHarianController extends Controller
         $mainBankAccountId = $sumberDanaOptions->firstWhere('tipe_sumber', 'Bank')['id'] ?? null;
         $tunaiAccountId = $sumberDanaOptions->firstWhere('tipe_sumber', 'Tunai')['id'] ?? null;
 
-        return Inertia::render('roles.Keuangan.Harian.pengeluaran.create', [
+        return Inertia::render('roles.keuangan.Harian.pengeluaran.create', [
             'sumberDanaOptions' => $sumberDanaOptions,
             'mainBankAccountId' => $mainBankAccountId,
             'tunaiAccountId' => $tunaiAccountId,
@@ -65,7 +65,7 @@ class PengeluaranHarianController extends Controller
      */
     public function edit(KeuanganPengeluaranHarian $pengeluaran): Response
     {
-        return Inertia::render('roles.Keuangan.Harian.pengeluaran.edit', [
+        return Inertia::render('roles.keuangan.Harian.pengeluaran.edit', [
             'pengeluaran' => $pengeluaran,
         ]);
     }
@@ -115,7 +115,7 @@ class PengeluaranHarianController extends Controller
             \App\Models\Keuangan\KeuanganPengeluaranHarian::create($dataToStore);
         });
 
-        return redirect()->route('manajer-keuangan.harian.pengeluaran.index')->with('message', 'Pengeluaran berhasil ditambahkan.');
+        return redirect()->route('keuangan.harian.pengeluaran.index')->with('message', 'Pengeluaran berhasil ditambahkan.');
     }
 
     /**
@@ -185,7 +185,7 @@ class PengeluaranHarianController extends Controller
             $pengeluaran->save();
         }
 
-        return redirect()->route('manajer-keuangan.harian.pengeluaran.index')->with('message', 'Pengeluaran berhasil diperbarui.');
+        return redirect()->route('keuangan.harian.pengeluaran.index')->with('message', 'Pengeluaran berhasil diperbarui.');
     }
 
     /**
@@ -203,6 +203,6 @@ class PengeluaranHarianController extends Controller
 
         $pengeluaran->delete();
 
-        return redirect()->route('manajer-keuangan.harian.pengeluaran.index')->with('message', 'Pengeluaran berhasil dihapus.');
+        return redirect()->route('keuangan.harian.pengeluaran.index')->with('message', 'Pengeluaran berhasil dihapus.');
     }
 }

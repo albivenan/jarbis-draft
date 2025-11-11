@@ -56,7 +56,7 @@ export default function HargaProdukIndex() {
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
-        router.get(route('manajer-keuangan.keuangan-produk.harga.index'), {
+        router.get(route('keuangan.keuangan-produk.harga.index'), {
             search: e.target.value,
             status: selectedStatus === 'all' ? '' : selectedStatus,
         }, {
@@ -67,7 +67,7 @@ export default function HargaProdukIndex() {
 
     const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedStatus(e.target.value);
-        router.get(route('manajer-keuangan.keuangan-produk.harga.index'), {
+        router.get(route('keuangan.keuangan-produk.harga.index'), {
             search: searchTerm,
             status: e.target.value === 'all' ? '' : e.target.value,
         }, {
@@ -97,7 +97,7 @@ export default function HargaProdukIndex() {
             return;
         }
 
-        router.put(route('manajer-keuangan.keuangan-produk.harga.approve', produkHargaItem.id), {
+        router.put(route('keuangan.keuangan-produk.harga.approve', produkHargaItem.id), {
             harga_disetujui_keuangan: hargaDisetujui,
             margin_keuangan: margin,
         }, {
@@ -113,7 +113,7 @@ export default function HargaProdukIndex() {
 
     const handleReject = (produkHargaItem: ProdukHarga) => {
         const alasan = alasanPenolakanInput[produkHargaItem.id] || '';
-        router.put(route('manajer-keuangan.keuangan-produk.harga.reject', produkHargaItem.id), {
+        router.put(route('keuangan.keuangan-produk.harga.reject', produkHargaItem.id), {
             alasan_penolakan: alasan
         }, {
             onSuccess: () => {
@@ -141,7 +141,7 @@ export default function HargaProdukIndex() {
             return;
         }
 
-        router.put(route('manajer-keuangan.keuangan-produk.harga.approve-banding', produkHargaItem.id), {
+        router.put(route('keuangan.keuangan-produk.harga.approve-banding', produkHargaItem.id), {
             harga_disetujui_keuangan: hargaDisetujui,
             margin_keuangan: margin,
         }, {
@@ -198,9 +198,9 @@ export default function HargaProdukIndex() {
         <AuthenticatedLayout
             title="Manajemen Harga Produk"
             breadcrumbs={[
-                { title: 'Dashboard', href: route('manajer-keuangan.index') },
+                { title: 'Dashboard', href: route('keuangan.index') },
                 { title: 'Keuangan Produk', href: '#' },
-                { title: 'Manajemen Harga Produk', href: route('manajer-keuangan.keuangan-produk.harga.index') }
+                { title: 'Manajemen Harga Produk', href: route('keuangan.keuangan-produk.harga.index') }
             ]}
         >
             <Head title="Manajemen Harga Produk - Keuangan" />

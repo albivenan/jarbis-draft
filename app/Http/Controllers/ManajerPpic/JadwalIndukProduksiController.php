@@ -28,7 +28,7 @@ class JadwalIndukProduksiController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        return Inertia::render('roles/manajer-ppic/perencanaan/jadwal-induk-produksi/index', [
+        return Inertia::render('roles/ppic/perencanaan/jadwal-induk-produksi/index', [
             'jadwalProduksi' => $jadwalProduksi,
             'filters' => $filters,
         ]);

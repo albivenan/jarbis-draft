@@ -11,17 +11,26 @@ createInertiaApp({
     title: (title) => title ? `${title} - ${appName}` : appName,
     resolve: (name) => {
         const pages = import.meta.glob('./Pages/**/*.tsx', { eager: true });
-        
+        const pagePaths = Object.keys(pages);
+
+        const findPage = (path: string) => {
+            const normalizedPath = path.toLowerCase();
+            const foundPath = pagePaths.find(p => p.toLowerCase() === normalizedPath);
+            return foundPath ? pages[foundPath] : undefined;
+        };
+
         // Try resolving as a direct file (e.g., 'User/Show' -> './Pages/User/Show.tsx')
         let path = `./Pages/${name.replace(/\./g, '/')}.tsx`;
-        if (path in pages) {
-            return pages[path];
+        let page = findPage(path);
+        if (page) {
+            return page;
         }
 
         // If not found, try resolving as a folder with an index.tsx (e.g., 'User' -> './Pages/User/index.tsx')
         path = `./Pages/${name.replace(/\./g, '/')}/index.tsx`;
-        if (path in pages) {
-            return pages[path];
+        page = findPage(path);
+        if (page) {
+            return page;
         }
         
         throw new Error(`Page not found: ${name}`);

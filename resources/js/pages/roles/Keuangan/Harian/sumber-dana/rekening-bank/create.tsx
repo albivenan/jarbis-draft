@@ -25,7 +25,7 @@ const Create: React.FC<CreateRekeningBankProps> = ({ sumberDanaUrl }) => {
         // Generate nama_sumber automatically
         const generatedNamaSumber = `${data.nama_bank} - ${data.nomor_rekening}`;
         setData('nama_sumber', generatedNamaSumber); // Update data before posting
-        post(route('manajer-keuangan.harian.rekening-bank.store'));
+        post(route('keuangan.harian.rekening-bank.store'));
     };
 
     return (

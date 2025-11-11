@@ -251,11 +251,11 @@ export const usePengeluaranData = (initialPengeluaran: Pengeluaran[]): UsePengel
         let periodLabel = '';
         let comparisonLabel = 'vs Kemarin';
         let chartKeys: any[] = [];
-        let periodJenisTotals: { [key: string]: number } = {};
+        const periodJenisTotals: { [key: string]: number } = {};
         jenisPengeluaranValues.forEach(jenis => periodJenisTotals[jenis] = 0);
-        let periodJenisCounts: { [key: string]: number } = {};
+        const periodJenisCounts: { [key: string]: number } = {};
         jenisPengeluaranValues.forEach(jenis => periodJenisCounts[jenis] = 0);
-        let jenisPercentageChanges: { [key: string]: number } = {}; // New variable
+        const jenisPercentageChanges: { [key: string]: number } = {}; // New variable
 
         const lineKeys = jenisPengeluaranValues.map(jenis => ({
             type: 'line',
@@ -541,7 +541,7 @@ export const usePengeluaranData = (initialPengeluaran: Pengeluaran[]): UsePengel
             periodLabel = `${periodOption.label} (${format(startDate, 'd MMM', { locale: id })}) - ${format(today, 'd MMM yyyy', { locale: id })}`;
             comparisonLabel = periodOption.comparisonLabel;
             let previousPeriodTotal = 0;
-            let previousPeriodJenisTotals: { [key: string]: number } = {}; // Initialize previousPeriodJenisTotals
+            const previousPeriodJenisTotals: { [key: string]: number } = {}; // Initialize previousPeriodJenisTotals
             jenisPengeluaranValues.forEach(jenis => {
                 previousPeriodJenisTotals[jenis] = 0;
             });

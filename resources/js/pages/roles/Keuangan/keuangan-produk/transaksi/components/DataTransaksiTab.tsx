@@ -96,7 +96,7 @@ const DataTransaksiTab: React.FC<DataTransaksiTabProps> = ({ pemasukanHarian, su
 
     const handleSearch = () => {
         router.get(
-            route('manajer-keuangan.keuangan-produk.transaksi.index'),
+            route('keuangan.keuangan-produk.transaksi.index'),
             {
                 search: searchTerm,
                 selectedDate: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : undefined,
@@ -111,7 +111,7 @@ const DataTransaksiTab: React.FC<DataTransaksiTabProps> = ({ pemasukanHarian, su
     const handleDateSelect = (date: Date | undefined) => {
         setSelectedDate(date);
         router.get(
-            route('manajer-keuangan.keuangan-produk.transaksi.index'),
+            route('keuangan.keuangan-produk.transaksi.index'),
             {
                 search: searchTerm,
                 selectedDate: date ? format(date, 'yyyy-MM-dd') : undefined,
@@ -126,7 +126,7 @@ const DataTransaksiTab: React.FC<DataTransaksiTabProps> = ({ pemasukanHarian, su
     const handleClearDate = () => {
         setSelectedDate(undefined);
         router.get(
-            route('manajer-keuangan.keuangan-produk.transaksi.index'),
+            route('keuangan.keuangan-produk.transaksi.index'),
             {
                 search: searchTerm,
                 selectedDate: undefined,
@@ -152,7 +152,7 @@ const DataTransaksiTab: React.FC<DataTransaksiTabProps> = ({ pemasukanHarian, su
 
     const handleDeleteClick = (id: number) => {
         if (confirm('Apakah Anda yakin ingin menghapus transaksi ini?')) {
-            router.delete(route('manajer-keuangan.keuangan-produk.transaksi.destroy', id), {
+            router.delete(route('keuangan.keuangan-produk.transaksi.destroy', id), {
                 preserveScroll: true,
                 onSuccess: () => {
                     // Optionally show a toast notification
@@ -202,7 +202,7 @@ const DataTransaksiTab: React.FC<DataTransaksiTabProps> = ({ pemasukanHarian, su
                             )}
                         </PopoverContent>
                     </Popover>
-                    <Link href={route('manajer-keuangan.keuangan-produk.transaksi.create')}>
+                    <Link href={route('keuangan.keuangan-produk.transaksi.create')}>
                         <Button>Tambah Transaksi</Button>
                     </Link>
                 </div>
@@ -257,7 +257,7 @@ const DataTransaksiTab: React.FC<DataTransaksiTabProps> = ({ pemasukanHarian, su
                                                 </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
-                                                <DropdownMenuItem onClick={() => router.get(route('manajer-keuangan.keuangan-produk.transaksi.edit', transaction.id))}>
+                                                <DropdownMenuItem onClick={() => router.get(route('keuangan.keuangan-produk.transaksi.edit', transaction.id))}>
                                                     <Pencil className="mr-2 h-4 w-4" />
                                                     <span>Edit</span>
                                                 </DropdownMenuItem>

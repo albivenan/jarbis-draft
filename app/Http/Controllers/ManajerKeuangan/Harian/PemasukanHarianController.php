@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Keuangan\KeuanganPemasukanHarian;
+use App\Models\Keuangan\KeuanganTransaksiPembeli;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -24,7 +25,7 @@ class PemasukanHarianController extends Controller
             ->latest()
             ->get();
 
-        return Inertia::render('roles.Keuangan.Harian.pemasukan.index', [
+        return Inertia::render('roles.keuangan.Harian.pemasukan.index', [
             'pemasukan' => $pemasukan,
         ]);
     }
@@ -40,7 +41,7 @@ class PemasukanHarianController extends Controller
         $mainBankAccount = $sumberDanaOptions->where('is_main_account', true)->first();
         $tunaiAccount = $sumberDanaOptions->where('tipe_sumber', 'Tunai')->first();
 
-        return Inertia::render('roles.Keuangan.Harian.pemasukan.create', [
+        return Inertia::render('roles.keuangan.Harian.pemasukan.create', [
             'sumberDanaOptions' => $sumberDanaOptions,
             'mainBankAccountId' => $mainBankAccount ? $mainBankAccount->id : null,
             'mainBankAccountName' => $mainBankAccount ? $mainBankAccount->nama_sumber : null,
@@ -61,7 +62,7 @@ class PemasukanHarianController extends Controller
         $mainBankAccount = $sumberDanaOptions->where('is_main_account', true)->first();
         $tunaiAccount = $sumberDanaOptions->where('tipe_sumber', 'Tunai')->first();
 
-        return Inertia::render('roles.Keuangan.Harian.pemasukan.edit', [
+        return Inertia::render('roles.keuangan.Harian.pemasukan.edit', [
             'pemasukan' => $pemasukan,
             'sumberDanaOptions' => $sumberDanaOptions,
             'mainBankAccountId' => $mainBankAccount ? $mainBankAccount->id : null,
@@ -132,7 +133,7 @@ class PemasukanHarianController extends Controller
 
         $pemasukan = \App\Models\Keuangan\KeuanganPemasukanHarian::create($dataToStore);
 
-        return redirect()->route('manajer-keuangan.harian.pemasukan.index')->with('message', 'Pemasukan berhasil ditambahkan.');
+        return redirect()->route('keuangan.harian.pemasukan.index')->with('message', 'Pemasukan berhasil ditambahkan.');
     }
 
     /**
@@ -252,7 +253,7 @@ class PemasukanHarianController extends Controller
             $pemasukan->save();
         }
 
-        return redirect()->route('manajer-keuangan.harian.pemasukan.index')->with('message', 'Pemasukan berhasil diperbarui.');
+        return redirect()->route('keuangan.harian.pemasukan.index')->with('message', 'Pemasukan berhasil diperbarui.');
     }
 
     /**
@@ -270,6 +271,6 @@ class PemasukanHarianController extends Controller
 
         $pemasukan->delete();
 
-        return redirect()->route('manajer-keuangan.harian.pemasukan.index')->with('message', 'Pemasukan berhasil dihapus.');
+        return redirect()->route('keuangan.harian.pemasukan.index')->with('message', 'Pemasukan berhasil dihapus.');
     }
 }

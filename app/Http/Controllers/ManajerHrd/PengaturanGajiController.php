@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\ManajerHRD;
+namespace App\Http\Controllers\ManajerHrd;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -37,7 +37,7 @@ class PengaturanGajiController extends Controller
         // Fetch standar_jam_kerja from payroll_settings
         $standarJamKerja = DB::table('payroll_settings')->where('setting_key', 'standar_jam_kerja')->value('setting_value') ?? 8; // Default to 8 if not found
 
-        return Inertia::render('roles/manajer-hrd/penggajian/pengaturan', [
+        return Inertia::render('roles/hrd/penggajian/pengaturan', [
             'jabatans' => $jabatans,
             'tarifPerJamRules' => $tarifPerJamRules, // Renamed prop
             'standarJamKerja' => (int)$standarJamKerja, // Pass as prop

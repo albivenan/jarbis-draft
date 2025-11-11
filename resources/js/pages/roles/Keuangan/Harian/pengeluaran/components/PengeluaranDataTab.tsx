@@ -132,7 +132,7 @@ export default function PengeluaranDataTab({
                                                                                 </DropdownMenuTrigger>
                                                                                 <DropdownMenuContent align="end">
                                                                                     <DropdownMenuItem asChild>
-                                                                                        <Link href={route('manajer-keuangan.harian.pengeluaran.edit', item.id)}>
+                                                                                        <Link href={route('keuangan.harian.pengeluaran.edit', item.id)}>
                                                                                             <Pencil className="mr-2 h-4 w-4" />
                                                                                             <span>Edit</span>
                                                                                         </Link>

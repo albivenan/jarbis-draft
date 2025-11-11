@@ -29,13 +29,12 @@ class RekeningBankController extends Controller
                 ];
             });
 
-            return Inertia::render('roles/Keuangan/Harian/sumber-dana/rekening-bank/index', [
-                'sumberDanaUrl' => route('manajer-keuangan.harian.sumber-dana'),
+            return Inertia::render('roles/keuangan/Harian/sumber-dana/rekening-bank/index', [
+                'sumberDanaUrl' => route('keuangan.harian.sumber-dana'),
                 'rekeningBank' => $rekeningBankList,
             ]);
         } catch (\Exception $e) {
             // Log the error for debugging
-            \Log::error("Error loading rekening bank data: " . $e->getMessage());
             // Redirect with an error message or render an error page
             return redirect()->back()->with('error', 'Gagal memuat data rekening bank. Silakan coba lagi.');
         }
@@ -43,7 +42,7 @@ class RekeningBankController extends Controller
 
     public function create()
     {
-        return Inertia::render('roles/Keuangan/Harian/sumber-dana/rekening-bank/create');
+        return Inertia::render('roles/keuangan/Harian/sumber-dana/rekening-bank/create');
     }
 
     public function store(Request $request)
@@ -66,8 +65,8 @@ class RekeningBankController extends Controller
             'is_main_account' => false, // New accounts are not main by default
         ]);
 
-        return redirect()->route('manajer-keuangan.harian.rekening-bank.index')
-                         ->with('success', 'Rekening bank berhasil ditambahkan.');
+        return redirect()->route('keuangan.harian.rekening-bank.index')
+            ->with('success', 'Rekening bank berhasil ditambahkan.');
     }
 
     public function setMainAccount(SumberDana $sumberDana)
@@ -80,8 +79,8 @@ class RekeningBankController extends Controller
         DB::transaction(function () use ($sumberDana) {
             // Set all other bank accounts to not main
             SumberDana::where('tipe_sumber', 'Bank')
-                      ->where('id', '!=', $sumberDana->id)
-                      ->update(['is_main_account' => false]);
+                ->where('id', '!=', $sumberDana->id)
+                ->update(['is_main_account' => false]);
 
             // Set the selected bank account as main
             $sumberDana->is_main_account = true;
@@ -104,7 +103,7 @@ class RekeningBankController extends Controller
             'isConnected' => true,
             'balance' => 100000000
         ]; // Placeholder
-        return Inertia::render('roles/Keuangan/Harian/sumber-dana/rekening-bank/edit', [
+        return Inertia::render('roles/keuangan/Harian/sumber-dana/rekening-bank/edit', [
             'rekeningBank' => $rekeningBank
         ]);
     }
@@ -112,12 +111,12 @@ class RekeningBankController extends Controller
     public function update(Request $request, $id)
     {
         // Logic to update the bank account
-        return redirect()->route('manajer-keuangan.harian.rekening-bank.index');
+        return redirect()->route('keuangan.harian.rekening-bank.index');
     }
 
     public function destroy($id)
     {
         // Logic to delete the bank account
-        return redirect()->route('manajer-keuangan.harian.rekening-bank.index');
+        return redirect()->route('keuangan.harian.rekening-bank.index');
     }
 }

@@ -1,0 +1,20 @@
+# Frontend Role Folders - Current State
+# No folders with "manajer-" or "staf-" prefixes found
+
+Current role folders:
+- crew
+- direktur
+- hrd
+- Keuangan (uppercase K - needs to be lowercase per requirements)
+- marketing
+- ppic
+- produksi
+- qc-kayu (should be merged into qc per requirements)
+- software-engineer
+- supervisor
+
+Note: The structure appears to have been partially migrated already, or the initial state
+is different than expected in the design document. The main remaining issues are:
+1. Keuangan folder uses uppercase K (should be lowercase)
+2. qc-kayu exists but qc-besi is missing (should merge into single qc folder)
+3. No separate produksi-besi or produksi-kayu folders found

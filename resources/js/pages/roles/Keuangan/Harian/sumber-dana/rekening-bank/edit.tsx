@@ -26,7 +26,7 @@ export default function EditRekeningBankPage({ rekeningBank }: EditRekeningBankP
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    put(route('manajer-keuangan.harian.rekening-bank.update', rekeningBank.id));
+    put(route('keuangan.harian.rekening-bank.update', rekeningBank.id));
   }
 
   return (
@@ -74,7 +74,7 @@ export default function EditRekeningBankPage({ rekeningBank }: EditRekeningBankP
               </div>
               <div className="flex justify-end gap-2">
                 <Button variant="outline" asChild>
-                  <Link href={route('manajer-keuangan.harian.rekening-bank.index')}>Batal</Link>
+                  <Link href={route('keuangan.harian.rekening-bank.index')}>Batal</Link>
                 </Button>
                 <Button type="submit" disabled={processing}>Simpan</Button>
               </div>

@@ -53,7 +53,7 @@ class PersediaanController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('roles/Keuangan/keuangan-produk/persediaan/index', [
+        return Inertia::render('roles/keuangan/keuangan-produk/persediaan/index', [
             'summaryMetrics' => $summaryMetrics,
             'inventoryTrendData' => $inventoryTrendData,
             'products' => $products,

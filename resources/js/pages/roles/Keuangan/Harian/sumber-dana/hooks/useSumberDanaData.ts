@@ -218,7 +218,7 @@ export const useSumberDanaData = () => {
 
                 // Ensure default 'Tunai' and 'Bank' sources always exist
 
-                let finalSumberDana = [...fetchedSumberDana];
+                const finalSumberDana = [...fetchedSumberDana];
 
                 if (!fetchedSumberDana.some(sd => sd.tipe_sumber === 'Tunai')) {
 

@@ -86,7 +86,7 @@ const formatLocalDateTime = (dateString?: string) => {
     const utcDateString = dateString.endsWith('Z') || dateString.includes('+') || dateString.includes('-')
         ? dateString
         : dateString + 'Z';
-    
+
     const date = new Date(utcDateString);
     const options: Intl.DateTimeFormatOptions = {
         year: 'numeric',
@@ -101,7 +101,7 @@ const formatLocalDateTime = (dateString?: string) => {
 
 const Approval = () => {
     const { batches: initialBatches, flash, activeTab: initialActiveTab } = usePage<PageProps>().props;
-    
+
     // State Management
     const [activeTab, setActiveTab] = useState(initialActiveTab || 'pending');
     const [selectedEmployeeIds, setSelectedEmployeeIds] = useState<Set<number>>(new Set());
@@ -166,7 +166,7 @@ const Approval = () => {
     const handleTabChange = (newTab: 'pending' | 'payment' | 'completed') => {
         setActiveTab(newTab);
         resetSelections();
-        router.get(route('manajer-keuangan.payroll.approval'), { tab: newTab }, { preserveState: true, replace: true, only: ['batches', 'activeTab'] });
+        router.get(route('keuangan.payroll.approval'), { tab: newTab }, { preserveState: true, replace: true, only: ['batches', 'activeTab'] });
     };
 
     const handleSelectEmployee = (employeeId: number) => {
@@ -245,7 +245,7 @@ const Approval = () => {
             onSuccess: () => {
                 toast.success('Pembayaran berhasil diproses.');
                 // Force a visit to the completed tab to see the result
-                router.visit(route('manajer-keuangan.payroll.approval', { tab: 'completed' }));
+                router.visit(route('keuangan.payroll.approval', { tab: 'completed' }));
             },
             onError: () => toast.error('Gagal memproses pembayaran.'),
             onFinish: () => {
@@ -382,9 +382,9 @@ const Approval = () => {
                                                     <TableCell className="text-center">
                                                         <Badge variant={
                                                             employee.status === 'paid' ? 'success' :
-                                                            employee.status === 'approved' ? 'default' :
-                                                            employee.status === 'finalized' ? 'outline' :
-                                                            employee.status === 'rejected' ? 'destructive' : 'secondary'
+                                                                employee.status === 'approved' ? 'default' :
+                                                                    employee.status === 'finalized' ? 'outline' :
+                                                                        employee.status === 'rejected' ? 'destructive' : 'secondary'
                                                         }>{employee.status}</Badge>
                                                     </TableCell>
                                                     <TableCell className="text-right">
@@ -409,7 +409,7 @@ const Approval = () => {
     return (
         <AuthenticatedLayout>
             <Head title="Persetujuan Penggajian - Manajer Keuangan" />
-            
+
             <div className="space-y-4">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">

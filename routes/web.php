@@ -7,24 +7,24 @@ use Inertia\Inertia;
 // Controllers
 use App\Http\Controllers\Shared\Attendance\PresensiController;
 use App\Http\Controllers\JadwalController;
-use App\Http\Controllers\ManajerHrd\PayrollController;
+use App\Http\Controllers\Hrd\PayrollController;
 use App\Http\Controllers\Settings\ProfileController as SettingsProfileController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\SopController;
-use App\Http\Controllers\ManajerKeuangan\Harian\PemasukanHarianController;
-use App\Http\Controllers\ManajerKeuangan\Harian\PengeluaranHarianController;
-use App\Http\Controllers\ManajerKeuangan\Harian\KasDanBankController;
-use App\Http\Controllers\ManajerKeuangan\RekeningBankController;
+use App\Http\Controllers\Keuangan\Harian\PemasukanHarianController;
+use App\Http\Controllers\Keuangan\Harian\PengeluaranHarianController;
+use App\Http\Controllers\Keuangan\Harian\KasDanBankController;
+use App\Http\Controllers\Keuangan\RekeningBankController;
 use App\Http\Controllers\Keuangan\Harian\SumberDanaController; // Added
 
 use App\Http\Controllers\Keuangan\PembelianBahanBakuController; // Added
 
 use App\Http\Controllers\Keuangan\KeuanganProduk\TransaksiController; // Added
-use App\Http\Controllers\ManajerPpic\PesananController as PpicPesananController;
-use App\Http\Controllers\ManajerKeuangan\ProdukHargaController;
-use App\Http\Controllers\ManajerMarketing\PesananController as MarketingPesananController;
+use App\Http\Controllers\Ppic\PesananController as PpicPesananController;
+use App\Http\Controllers\Keuangan\ProdukHargaController;
+use App\Http\Controllers\Marketing\PesananController as MarketingPesananController;
 
 
 /*
@@ -56,20 +56,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Map role to route name
         $roleRouteMap = [
             'direktur' => 'direktur.index',
-            'manajer_hrd' => 'manajer-hrd.index',
-            'staf_hrd' => 'staf-hrd.index',
-            'manajer_keuangan' => 'manajer-keuangan.index',
-            'staf_keuangan' => 'staf-keuangan.index',
-            'manajer_marketing' => 'manajer-marketing.index',
+            'manajer_hrd' => 'hrd.index',
+            'manajer_keuangan' => 'keuangan.index',
+            'staf_keuangan' => 'keuangan.index',
+            'manajer_marketing' => 'marketing.index',
             'staf_marketing' => 'staf-marketing.index',
-            'manajer_ppic' => 'manajer-ppic.index',
-            'staf_ppic' => 'staf-ppic.index',
-            'manajer_produksi_kayu' => 'manajer-produksi-kayu.index',
-            'manajer_produksi_besi' => 'manajer-produksi-besi.index',
-            'supervisor_kayu' => 'supervisor-kayu.index',
-            'supervisor_besi' => 'supervisor-besi.index',
-            'qc_kayu' => 'qc-kayu.index',
-            'qc_besi' => 'qc-besi.index',
+            'manajer_ppic' => 'ppic.index',
+            'staf_ppic' => 'ppic.index',
+            'manajer_produksi_kayu' => 'produksi.index',
+            'manajer_produksi_besi' => 'produksi.index',
+            'supervisor_kayu' => 'supervisor.index',
+            'supervisor_besi' => 'supervisor.index',
+            'qc_kayu' => 'qc.index',
+            'qc_besi' => 'qc.index',
             'crew_kayu' => 'crew-kayu.index',
             'crew_besi' => 'crew-besi.index',
             'software_engineer' => 'software-engineer.index',
@@ -147,209 +146,134 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | QC Kayu Routes
+    | QC Routes (Shared)
     |--------------------------------------------------------------------------
     */
-    Route::prefix('roles/qc-kayu')->middleware(['auth', 'role.permission'])->name('qc-kayu.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles.qc-kayu.dashboard'))->name('index');
+    Route::prefix('roles/qc')->middleware(['auth', 'role.permission'])->name('qc.')->group(function () {
+        Route::get('/', fn() => Inertia::render('roles.qc.dashboard'))->name('index');
         Route::get('schedule', [App\Http\Controllers\Shared\Attendance\PresensiController::class, 'showSchedulePage'])->name('schedule');
         
         Route::prefix('inspeksi')->name('inspeksi.')->group(function () {
-            Route::get('antrean-inspeksi', fn() => Inertia::render('roles.qc-kayu.inspeksi.antrean-inspeksi'))->name('antrean-inspeksi');
-            Route::get('detail-produksi', fn() => Inertia::render('roles.qc-kayu.inspeksi.detail-produksi'))->name('detail-produksi');
-            Route::get('formulir-laporan', fn() => Inertia::render('roles.qc-kayu.inspeksi.formulir-laporan'))->name('formulir-laporan');
+            Route::get('antrean-inspeksi', fn() => Inertia::render('roles.qc.inspeksi.antrean-inspeksi'))->name('antrean-inspeksi');
+            Route::get('detail-produksi', fn() => Inertia::render('roles.qc.inspeksi.detail-produksi'))->name('detail-produksi');
+            Route::get('formulir-laporan', fn() => Inertia::render('roles.qc.inspeksi.formulir-laporan'))->name('formulir-laporan');
         });
         
         Route::prefix('dokumen')->name('dokumen.')->group(function () {
-            Route::get('standar-kualitas', fn() => Inertia::render('roles.qc-kayu.dokumen.standar-kualitas'))->name('standar-kualitas');
-            Route::get('riwayat-inspeksi', fn() => Inertia::render('roles.qc-kayu.dokumen.riwayat-inspeksi'))->name('riwayat-inspeksi');
-            Route::get('analisis-reject', fn() => Inertia::render('roles.qc-kayu.dokumen.analisis-reject'))->name('analisis-reject');
-        });
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | QC Besi Routes
-    |--------------------------------------------------------------------------
-    */
-    Route::prefix('roles/qc-besi')->middleware(['auth', 'role.permission'])->name('qc-besi.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles.qc-besi.dashboard'))->name('index');
-        Route::get('schedule', [App\Http\Controllers\Shared\Attendance\PresensiController::class, 'showSchedulePage'])->name('schedule');
-        
-        Route::prefix('inspeksi')->name('inspeksi.')->group(function () {
-            Route::get('antrean-inspeksi', fn() => Inertia::render('roles.qc-besi.inspeksi.antrean-inspeksi'))->name('antrean-inspeksi');
-            Route::get('detail-produksi', fn() => Inertia::render('roles.qc-besi.inspeksi.detail-produksi'))->name('detail-produksi');
-            Route::get('formulir-laporan', fn() => Inertia::render('roles.qc-besi.inspeksi.formulir-laporan'))->name('formulir-laporan');
-        });
-        
-        Route::prefix('dokumen')->name('dokumen.')->group(function () {
-            Route::get('standar-kualitas', fn() => Inertia::render('roles.qc-besi.dokumen.standar-kualitas'))->name('standar-kualitas');
-            Route::get('riwayat-inspeksi', fn() => Inertia::render('roles.qc-besi.dokumen.riwayat-inspeksi'))->name('riwayat-inspeksi');
-            Route::get('analisis-reject', fn() => Inertia::render('roles.qc-besi.dokumen.analisis-reject'))->name('analisis-reject');
+            Route::get('standar-kualitas', fn() => Inertia::render('roles.qc.dokumen.standar-kualitas'))->name('standar-kualitas');
+            Route::get('riwayat-inspeksi', fn() => Inertia::render('roles.qc.dokumen.riwayat-inspeksi'))->name('riwayat-inspeksi');
+            Route::get('analisis-reject', fn() => Inertia::render('roles.qc.dokumen.analisis-reject'))->name('analisis-reject');
         });
     });
 
 
     /*
     |--------------------------------------------------------------------------
-    | Supervisor Kayu Routes
+    | Supervisor Routes (Shared: Supervisor Besi & Supervisor Kayu)
     |--------------------------------------------------------------------------
     */
-    Route::prefix('roles/supervisor-kayu')->middleware(['auth', 'role.permission'])->name('supervisor-kayu.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles.supervisor-kayu.dashboard'))->name('index');
+    Route::prefix('roles/supervisor')->middleware(['auth', 'role.permission'])->name('supervisor.')->group(function () {
+        Route::get('/', fn() => Inertia::render('roles.supervisor.dashboard'))->name('index');
         
         Route::prefix('tugas-saya')->name('tugas-saya.')->group(function () {
-            Route::get('daftar-tugas', fn() => Inertia::render('roles.supervisor-kayu.tugas-saya.daftar-tugas'))->name('daftar-tugas');
-            Route::get('instruksi-kerja', fn() => Inertia::render('roles.supervisor-kayu.tugas-saya.instruksi-kerja'))->name('instruksi-kerja');
-            Route::get('lapor-progres', fn() => Inertia::render('roles.supervisor-kayu.tugas-saya.lapor-progres'))->name('lapor-progres');
-            Route::get('lapor-kendala', fn() => Inertia::render('roles.supervisor-kayu.tugas-saya.lapor-kendala'))->name('lapor-kendala');
+            Route::get('daftar-tugas', fn() => Inertia::render('roles.supervisor.tugas-saya.daftar-tugas'))->name('daftar-tugas');
+            Route::get('instruksi-kerja', fn() => Inertia::render('roles.supervisor.tugas-saya.instruksi-kerja'))->name('instruksi-kerja');
+            Route::get('lapor-progres', fn() => Inertia::render('roles.supervisor.tugas-saya.lapor-progres'))->name('lapor-progres');
+            Route::get('lapor-kendala', fn() => Inertia::render('roles.supervisor.tugas-saya.lapor-kendala'))->name('lapor-kendala');
         });
         
         Route::prefix('kualitas')->name('kualitas.')->group(function () {
-            Route::get('status-catatan-qc', fn() => Inertia::render('roles.supervisor-kayu.kualitas.status-catatan-qc'))->name('status-catatan-qc');
-            Route::get('antrean-rework', fn() => Inertia::render('roles.supervisor-kayu.kualitas.antrean-rework'))->name('antrean-rework');
+            Route::get('status-catatan-qc', fn() => Inertia::render('roles.supervisor.kualitas.status-catatan-qc'))->name('status-catatan-qc');
+            Route::get('antrean-rework', fn() => Inertia::render('roles.supervisor.kualitas.antrean-rework'))->name('antrean-rework');
         });
         
         Route::prefix('kinerja')->name('kinerja.')->group(function () {
-            Route::get('penilaian-crew', fn() => Inertia::render('roles.supervisor-kayu.kinerja.penilaian-crew'))->name('penilaian-crew');
-            Route::get('riwayat-penilaian', fn() => Inertia::render('roles.supervisor-kayu.kinerja.riwayat-penilaian'))->name('riwayat-penilaian');
-        });
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | Supervisor Besi Routes
-    |--------------------------------------------------------------------------
-    */
-    Route::prefix('roles/supervisor-besi')->middleware(['auth', 'role.permission'])->name('supervisor-besi.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles.supervisor-besi.dashboard'))->name('index');
-        
-        Route::prefix('tugas-saya')->name('tugas-saya.')->group(function () {
-            Route::get('daftar-tugas', fn() => Inertia::render('roles.supervisor-besi.tugas-saya.daftar-tugas'))->name('daftar-tugas');
-            Route::get('instruksi-kerja', fn() => Inertia::render('roles.supervisor-besi.tugas-saya.instruksi-kerja'))->name('instruksi-kerja');
-            Route::get('lapor-progres', fn() => Inertia::render('roles.supervisor-besi.tugas-saya.lapor-progres'))->name('lapor-progres');
-            Route::get('lapor-kendala', fn() => Inertia::render('roles.supervisor-besi.tugas-saya.lapor-kendala'))->name('lapor-kendala');
-        });
-        
-        Route::prefix('kualitas')->name('kualitas.')->group(function () {
-            Route::get('status-catatan-qc', fn() => Inertia::render('roles.supervisor-besi.kualitas.status-catatan-qc'))->name('status-catatan-qc');
-            Route::get('antrean-rework', fn() => Inertia::render('roles.supervisor-besi.kualitas.antrean-rework'))->name('antrean-rework');
-        });
-        
-        Route::prefix('kinerja')->name('kinerja.')->group(function () {
-            Route::get('penilaian-crew', fn() => Inertia::render('roles.supervisor-besi.kinerja.penilaian-crew'))->name('penilaian-crew');
-            Route::get('riwayat-penilaian', fn() => Inertia::render('roles.supervisor-besi.kinerja.riwayat-penilaian'))->name('riwayat-penilaian');
+            Route::get('penilaian-crew', fn() => Inertia::render('roles.supervisor.kinerja.penilaian-crew'))->name('penilaian-crew');
+            Route::get('riwayat-penilaian', fn() => Inertia::render('roles.supervisor.kinerja.riwayat-penilaian'))->name('riwayat-penilaian');
         });
     });
 
 
     /*
     |--------------------------------------------------------------------------
-    | Manajer HRD Routes
+    | HRD Routes
     |--------------------------------------------------------------------------
     */
-    Route::prefix('roles/manajer-hrd')->middleware(['auth', 'role.permission'])->name('manajer-hrd.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles.manajer-hrd.dashboard'))->name('index');
+    Route::prefix('roles/hrd')->middleware(['auth', 'role.permission'])->name('hrd.')->group(function () {
+        Route::get('/', fn() => Inertia::render('roles.hrd.dashboard'))->name('index');
         
         // Data Karyawan
         Route::prefix('karyawan')->name('karyawan.')->group(function () {
-            Route::get('daftar', [App\Http\Controllers\ManajerHrd\KaryawanController::class, 'index'])->name('daftar');
-            Route::get('demografi', [App\Http\Controllers\ManajerHrd\DemografiController::class, 'index'])->name('demografi');
-            Route::get('{id_karyawan}/detail', [App\Http\Controllers\ManajerHrd\KaryawanController::class, 'show'])->name('detail');
-            Route::get('kontrak', fn() => Inertia::render('roles.manajer-hrd.karyawan.kontrak'))->name('kontrak');
-            Route::get('permintaan-perubahan-data', [App\Http\Controllers\ManajerHrd\KaryawanController::class, 'showChangeRequests'])->name('permintaan-perubahan-data');
+            Route::get('daftar', [App\Http\Controllers\Hrd\KaryawanController::class, 'index'])->name('daftar');
+            Route::get('demografi', [App\Http\Controllers\Hrd\DemografiController::class, 'index'])->name('demografi');
+            Route::get('{id_karyawan}/detail', [App\Http\Controllers\Hrd\KaryawanController::class, 'show'])->name('detail');
+            Route::get('kontrak', fn() => Inertia::render('roles.hrd.karyawan.kontrak'))->name('kontrak');
+            Route::get('permintaan-perubahan-data', [App\Http\Controllers\Hrd\KaryawanController::class, 'showChangeRequests'])->name('permintaan-perubahan-data');
         });
         
         // Manajemen Absensi
         Route::prefix('manajemen-presensi')->name('manajemen-presensi.')->group(function () {
-            Route::get('presensi', fn() => Inertia::render('roles/manajer-hrd/manajemen-presensi/presensi'))->name('presensi');
+            Route::get('presensi', fn() => Inertia::render('roles/hrd/manajemen-presensi/presensi'))->name('presensi');
             Route::get('pengajuan', [LeaveRequestController::class, 'hrdPengajuanPage'])->name('pengajuan');
-            Route::get('jadwal', fn() => Inertia::render('roles/manajer-hrd/manajemen-presensi/jadwal'))->name('jadwal');
+            Route::get('jadwal', fn() => Inertia::render('roles/hrd/manajemen-presensi/jadwal'))->name('jadwal');
         });
         
         // Manajemen Penggajian
         Route::prefix('penggajian')->name('penggajian.')->group(function () {
-            Route::get('proses', [App\Http\Controllers\ManajerHrd\PayrollController::class, 'index'])->name('proses');
-            Route::post('proses/validate', [App\Http\Controllers\ManajerHrd\PayrollController::class, 'validate'])->name('proses.validate');
-            Route::post('proses/update-koreksi', [App\Http\Controllers\ManajerHrd\PayrollController::class, 'updateKoreksi'])->name('proses.update-koreksi');
-            Route::get('riwayat', fn() => Inertia::render('roles.manajer-hrd.penggajian.riwayat'))->name('riwayat');
+            Route::get('proses', [App\Http\Controllers\Hrd\PayrollController::class, 'index'])->name('proses');
+            Route::post('proses/validate', [App\Http\Controllers\Hrd\PayrollController::class, 'validate'])->name('proses.validate');
+            Route::post('proses/update-koreksi', [App\Http\Controllers\Hrd\PayrollController::class, 'updateKoreksi'])->name('proses.update-koreksi');
+            Route::get('riwayat', fn() => Inertia::render('roles.hrd.penggajian.riwayat'))->name('riwayat');
             // Updated 'pengaturan' route to use the new controller
-            Route::get('pengaturan', [App\Http\Controllers\ManajerHRD\PengaturanGajiController::class, 'show'])->name('pengaturan');
-            Route::post('pengaturan', [App\Http\Controllers\ManajerHRD\PengaturanGajiController::class, 'update'])->name('pengaturan.update');
+            Route::get('pengaturan', [App\Http\Controllers\Hrd\PengaturanGajiController::class, 'show'])->name('pengaturan');
+            Route::post('pengaturan', [App\Http\Controllers\Hrd\PengaturanGajiController::class, 'update'])->name('pengaturan.update');
         });
         
         // Administrasi Perusahaan
         Route::prefix('administrasi')->name('administrasi.')->group(function () {
-            Route::get('sk', fn() => Inertia::render('roles.manajer-hrd.administrasi.sk'))->name('sk');
-            Route::get('dokumen', fn() => Inertia::render('roles.manajer-hrd.administrasi.dokumen'))->name('dokumen');
+            Route::get('sk', fn() => Inertia::render('roles.hrd.administrasi.sk'))->name('sk');
+            Route::get('dokumen', fn() => Inertia::render('roles.hrd.administrasi.dokumen'))->name('dokumen');
             Route::resource('sop', SopController::class);
-            Route::get('profil-perusahaan', [App\Http\Controllers\ManajerHrd\ProfilPerusahaanController::class, 'show'])->name('profil-perusahaan');
-            Route::post('profil-perusahaan', [App\Http\Controllers\ManajerHrd\ProfilPerusahaanController::class, 'update'])->name('profil-perusahaan.update');
+            Route::get('profil-perusahaan', [App\Http\Controllers\Hrd\ProfilPerusahaanController::class, 'show'])->name('profil-perusahaan');
+            Route::post('profil-perusahaan', [App\Http\Controllers\Hrd\ProfilPerusahaanController::class, 'update'])->name('profil-perusahaan.update');
         });
         
         // Laporan HRD
         Route::prefix('laporan')->name('laporan.')->group(function () {
-            Route::get('kehadiran', fn() => Inertia::render('roles/manajer-hrd/laporan/kehadiran/index'))->name('kehadiran');
-            Route::get('turnover', fn() => Inertia::render('roles/manajer-hrd/laporan/turnover/index'))->name('turnover');
+            Route::get('kehadiran', fn() => Inertia::render('roles/hrd/laporan/kehadiran/index'))->name('kehadiran');
+            Route::get('turnover', fn() => Inertia::render('roles/hrd/laporan/turnover/index'))->name('turnover');
             Route::get('penggajian', [App\Http\Controllers\Laporan\PenggajianController::class, 'index'])->name('penggajian');
             Route::get('direksi', [App\Http\Controllers\Laporan\DireksiController::class, 'index'])->name('direksi');
         });
 
         // Pengumuman
         Route::prefix('pengumuman')->name('pengumuman.')->group(function () {
-            Route::get('buat', [App\Http\Controllers\ManajerHrd\PengumumanController::class, 'create'])->name('buat');
-            Route::post('store', [App\Http\Controllers\ManajerHrd\PengumumanController::class, 'store'])->name('store');
+            Route::get('buat', [App\Http\Controllers\Hrd\PengumumanController::class, 'create'])->name('buat');
+            Route::post('store', [App\Http\Controllers\Hrd\PengumumanController::class, 'store'])->name('store');
             Route::prefix('riwayat')->name('riwayat.')->group(function () {
-                Route::get('/', [App\Http\Controllers\ManajerHrd\PengumumanController::class, 'index'])->name('index');
-                Route::get('{pengumuman}', [App\Http\Controllers\ManajerHrd\PengumumanController::class, 'show'])->name('show');
-                Route::delete('{pengumuman}', [App\Http\Controllers\ManajerHrd\PengumumanController::class, 'destroy'])->name('destroy');
+                Route::get('/', [App\Http\Controllers\Hrd\PengumumanController::class, 'index'])->name('index');
+                Route::get('{pengumuman}', [App\Http\Controllers\Hrd\PengumumanController::class, 'show'])->name('show');
+                Route::delete('{pengumuman}', [App\Http\Controllers\Hrd\PengumumanController::class, 'destroy'])->name('destroy');
             });
         });
         
         // Administrasi Pribadi
         Route::prefix('administrasi-pribadi')->name('administrasi-pribadi.')->group(function () {
-            Route::get('profil', fn() => Inertia::render('roles.manajer-hrd.administrasi-pribadi.profil'))->name('profil');
-            Route::get('jadwal', fn() => Inertia::render('roles.manajer-hrd.administrasi-pribadi.jadwal'))->name('jadwal');
-            Route::get('pengajuan-cuti', fn() => Inertia::render('roles.manajer-hrd.administrasi-pribadi.pengajuan-cuti'))->name('pengajuan-cuti');
-            Route::get('slip-gaji', fn() => Inertia::render('roles.manajer-hrd.administrasi-pribadi.slip-gaji'))->name('slip-gaji');
-            Route::get('kelola-rekening', fn() => Inertia::render('roles.manajer-hrd.administrasi-pribadi.kelola-rekening'))->name('kelola-rekening');
+            Route::get('profil', fn() => Inertia::render('roles.hrd.administrasi-pribadi.profil'))->name('profil');
+            Route::get('jadwal', fn() => Inertia::render('roles.hrd.administrasi-pribadi.jadwal'))->name('jadwal');
+            Route::get('pengajuan-cuti', fn() => Inertia::render('roles.hrd.administrasi-pribadi.pengajuan-cuti'))->name('pengajuan-cuti');
+            Route::get('slip-gaji', fn() => Inertia::render('roles.hrd.administrasi-pribadi.slip-gaji'))->name('slip-gaji');
+            Route::get('kelola-rekening', fn() => Inertia::render('roles.hrd.administrasi-pribadi.kelola-rekening'))->name('kelola-rekening');
         });
     });
 
     /*
     |--------------------------------------------------------------------------
-    | Staf HRD Routes
+    | Keuangan Routes
     |--------------------------------------------------------------------------
     */
-    Route::prefix('roles/staf-hrd')->middleware(['auth', 'role.permission'])->name('staf-hrd.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles.staf-hrd.dashboard'))->name('index');
-        
-        Route::prefix('karyawan')->name('karyawan.')->group(function () {
-            Route::get('daftar', fn() => Inertia::render('roles.staf-hrd.karyawan.daftar'))->name('daftar');
-            Route::get('absensi', fn() => Inertia::render('roles.staf-hrd.karyawan.absensi'))->name('absensi');
-            Route::get('penggajian', fn() => Inertia::render('roles.staf-hrd.karyawan.penggajian'))->name('penggajian');
-        });
-        
-        Route::prefix('administrasi')->name('administrasi.')->group(function () {
-            Route::get('dokumen', fn() => Inertia::render('roles.staf-hrd.administrasi.dokumen'))->name('dokumen');
-        });
-        
-        Route::prefix('administrasi-pribadi')->name('administrasi-pribadi.')->group(function () {
-            Route::get('profil', fn() => Inertia::render('roles.staf-hrd.administrasi-pribadi.profil'))->name('profil');
-            Route::get('jadwal', fn() => Inertia::render('roles.staf-hrd.administrasi-pribadi.jadwal'))->name('jadwal');
-            Route::get('cuti', fn() => Inertia::render('roles.staf-hrd.administrasi-pribadi.cuti'))->name('cuti');
-            Route::get('slip-gaji', fn() => Inertia::render('roles.staf-hrd.administrasi-pribadi.slip-gaji'))->name('slip-gaji');
-            Route::get('rekening', fn() => Inertia::render('roles.staf-hrd.administrasi-pribadi.rekening'))->name('rekening');
-        });
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | Manajer Keuangan Routes
-    |--------------------------------------------------------------------------
-    */
-    Route::prefix('roles/manajer-keuangan')->middleware(['auth', 'role.permission'])->name('manajer-keuangan.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles/Keuangan/dashboard'))->name('index');
+    Route::prefix('roles/keuangan')->middleware(['auth', 'role.permission'])->name('keuangan.')->group(function () {
+        Route::get('/', fn() => Inertia::render('roles/keuangan/dashboard'))->name('index');
         
         Route::prefix('harian')->name('harian.')->group(function () {
             // Pemasukan Routes
@@ -367,34 +291,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('pengeluaran/{pengeluaran}', [PengeluaranHarianController::class, 'update'])->name('pengeluaran.update');
             Route::delete('pengeluaran/{pengeluaran}', [PengeluaranHarianController::class, 'destroy'])->name('pengeluaran.destroy');
             Route::get('pengeluaran/{pengeluaran}/edit', [PengeluaranHarianController::class, 'edit'])->name('pengeluaran.edit');
-            Route::get('sumber-dana', fn() => Inertia::render('roles/Keuangan/Harian/sumber-dana/index'))->name('sumber-dana');
+            Route::get('sumber-dana', fn() => Inertia::render('roles/keuangan/Harian/sumber-dana/index'))->name('sumber-dana');
             Route::get('sumber-dana/{sumberDana}', [SumberDanaController::class, 'show'])->name('sumber-dana.show'); // Added
             Route::resource('rekening-bank', RekeningBankController::class);
             Route::post('rekening-bank/{sumberDana}/set-main', [RekeningBankController::class, 'setMainAccount'])->name('rekening-bank.set-main'); // Added
         });
         
         Route::prefix('payroll')->name('payroll.')->group(function () {
-            Route::get('approval', [\App\Http\Controllers\ManajerHrd\PayrollController::class, 'showApprovalPage'])->name('approval');
-            Route::get('history-data', fn() => Inertia::render('roles/Keuangan/Payroll/history-data/index'))->name('history-data');
-            Route::get('payment', [\App\Http\Controllers\ManajerHrd\PayrollController::class, 'showPaymentPage'])->name('payment');
+            Route::get('approval', [\App\Http\Controllers\Hrd\PayrollController::class, 'showApprovalPage'])->name('approval');
+            Route::get('history-data', fn() => Inertia::render('roles/keuangan/Payroll/history-data/index'))->name('history-data');
+            Route::get('payment', [\App\Http\Controllers\Hrd\PayrollController::class, 'showPaymentPage'])->name('payment');
         });
         
         Route::prefix('budget')->name('budget.')->group(function () {
-            Route::get('rencana', fn() => Inertia::render('roles/Keuangan/Budget/rencana/index'))->name('rencana');
-            Route::get('realisasi', fn() => Inertia::render('roles/Keuangan/Budget/realisasi/index'))->name('realisasi');
-            Route::get('monitoring', fn() => Inertia::render('roles/Keuangan/Budget/monitoring/index'))->name('monitoring');
+            Route::get('rencana', fn() => Inertia::render('roles/keuangan/Budget/rencana/index'))->name('rencana');
+            Route::get('realisasi', fn() => Inertia::render('roles/keuangan/Budget/realisasi/index'))->name('realisasi');
+            Route::get('monitoring', fn() => Inertia::render('roles/keuangan/Budget/monitoring/index'))->name('monitoring');
         });
         
         Route::prefix('laporan')->name('laporan.')->group(function () {
-            Route::get('bulanan', fn() => Inertia::render('roles/Keuangan/Laporan/bulanan/index'))->name('bulanan');
-            Route::get('tahunan', fn() => Inertia::render('roles/Keuangan/Laporan/tahunan/index'))->name('tahunan');
-            Route::get('neraca', fn() => Inertia::render('roles/Keuangan/Laporan/neraca/index'))->name('neraca');
-            Route::get('direksi', fn() => Inertia::render('roles/Keuangan/Laporan/direksi/index'))->name('direksi');
+            Route::get('bulanan', fn() => Inertia::render('roles/keuangan/Laporan/bulanan/index'))->name('bulanan');
+            Route::get('tahunan', fn() => Inertia::render('roles/keuangan/Laporan/tahunan/index'))->name('tahunan');
+            Route::get('neraca', fn() => Inertia::render('roles/keuangan/Laporan/neraca/index'))->name('neraca');
+            Route::get('direksi', fn() => Inertia::render('roles/keuangan/Laporan/direksi/index'))->name('direksi');
         });
         
         Route::prefix('pengaturan')->name('pengaturan.')->group(function () {
-            Route::get('chart-account', fn() => Inertia::render('roles/Keuangan/Pengaturan/chart-account/index'))->name('chart-account');
-            Route::get('user-role', fn() => Inertia::render('roles/Keuangan/Pengaturan/user-role/index'))->name('user-role');
+            Route::get('chart-account', fn() => Inertia::render('roles/keuangan/Pengaturan/chart-account/index'))->name('chart-account');
+            Route::get('user-role', fn() => Inertia::render('roles/keuangan/Pengaturan/user-role/index'))->name('user-role');
         });
 
         // Manajemen Keuangan Produk
@@ -417,25 +341,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('harga/{produkJual}/approve-banding', [ProdukHargaController::class, 'approveBanding'])->name('harga.approve-banding');
             
             // Route for Transaksi Monitoring
-            Route::get('transaksi-produk', [App\Http\Controllers\ManajerKeuangan\TransaksiProdukController::class, 'index'])->name('transaksi-produk.index');
-        });
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | Staf Keuangan Routes
-    |--------------------------------------------------------------------------
-    */
-    Route::prefix('roles/staf-keuangan')->middleware(['auth', 'role.permission'])->name('staf-keuangan.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles/Keuangan/dashboard'))->name('index');
-        
-        Route::prefix('harian')->name('harian.')->group(function () {
-            Route::get('pemasukan', fn() => Inertia::render('roles/Keuangan/Harian/pemasukan/index'))->name('pemasukan');
-            Route::get('pengeluaran', fn() => Inertia::render('roles/Keuangan/Harian/pengeluaran/index'))->name('pengeluaran');
-        });
-        
-        Route::prefix('payroll')->name('payroll.')->group(function () {
-            Route::get('data-gaji', fn() => Inertia::render('roles/Keuangan/Payroll/data-gaji/index'))->name('data-gaji');
+            Route::get('transaksi-produk', [App\Http\Controllers\Keuangan\TransaksiProdukController::class, 'index'])->name('transaksi-produk.index');
         });
     });
 
@@ -445,8 +351,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     | PPIC Routes
     |--------------------------------------------------------------------------
     */
-    Route::prefix('roles/manajer-ppic')->middleware(['auth', 'role.permission'])->name('manajer-ppic.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles.manajer-ppic.dashboard'))->name('index');
+    Route::prefix('roles/ppic')->middleware(['auth', 'role.permission'])->name('ppic.')->group(function () {
+        Route::get('/', fn() => Inertia::render('roles.ppic.dashboard'))->name('index');
         
         Route::prefix('perencanaan')->name('perencanaan.')->group(function () {
             Route::get('pesanan', [PpicPesananController::class, 'index'])->name('pesanan.index');
@@ -457,116 +363,115 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('pesanan/{produkJual}/approve-tenggat', [PpicPesananController::class, 'approveTenggat'])->name('pesanan.approve-tenggat');
             Route::put('pesanan/{produkJual}/reject-tenggat', [PpicPesananController::class, 'rejectTenggat'])->name('pesanan.reject-tenggat');
             Route::put('pesanan/{produkJual}/update-tenggat', [PpicPesananController::class, 'updateTenggat'])->name('pesanan.update-tenggat');
-            Route::get('jadwal-induk-produksi', [App\Http\Controllers\ManajerPpic\JadwalIndukProduksiController::class, 'index'])->name('jadwal-induk-produksi');
-            Route::get('simulasi', fn() => Inertia::render('roles.manajer-ppic.perencanaan.simulasi'))->name('simulasi');
+            Route::get('jadwal-induk-produksi', [App\Http\Controllers\Ppic\JadwalIndukProduksiController::class, 'index'])->name('jadwal-induk-produksi');
+            Route::get('simulasi', fn() => Inertia::render('roles.ppic.perencanaan.simulasi'))->name('simulasi');
         });
         
         Route::prefix('inventaris')->name('inventaris.')->group(function () {
-            Route::get('stok', fn() => Inertia::render('roles.manajer-ppic.inventaris.stok'))->name('stok');
-            Route::get('mrp', fn() => Inertia::render('roles.manajer-ppic.inventaris.mrp'))->name('mrp');
+            Route::get('stok', fn() => Inertia::render('roles.ppic.inventaris.stok'))->name('stok');
+            Route::get('mrp', fn() => Inertia::render('roles.ppic.inventaris.mrp'))->name('mrp');
             Route::get('pembelian/create', [App\Http\Controllers\Ppic\PpicPembelianBahanBakuController::class, 'create'])->name('pembelian.create');
             Route::get('pembelian', [App\Http\Controllers\Ppic\PpicPembelianBahanBakuController::class, 'index'])->name('pembelian.index');
             Route::post('pembelian', [App\Http\Controllers\Ppic\PpicPembelianBahanBakuController::class, 'store'])->name('pembelian.store');
         });
         
         Route::prefix('monitoring')->name('monitoring.')->group(function () {
-            Route::get('status', fn() => Inertia::render('roles.manajer-ppic.monitoring.status'))->name('status');
-            Route::get('kapasitas', fn() => Inertia::render('roles.manajer-ppic.monitoring.kapasitas'))->name('kapasitas');
-            Route::get('laporan-direksi', fn() => Inertia::render('roles.manajer-ppic.monitoring.laporan-direksi'))->name('laporan-direksi');
+            Route::get('status', fn() => Inertia::render('roles.ppic.monitoring.status'))->name('status');
+            Route::get('kapasitas', fn() => Inertia::render('roles.ppic.monitoring.kapasitas'))->name('kapasitas');
+            Route::get('laporan-direksi', fn() => Inertia::render('roles.ppic.monitoring.laporan-direksi'))->name('laporan-direksi');
         });
         
         Route::prefix('administrasi')->name('administrasi.')->group(function () {
-            Route::get('profil', fn() => Inertia::render('roles.manajer-ppic.administrasi.profil'))->name('profil');
-            Route::get('jadwal', fn() => Inertia::render('roles.manajer-ppic.administrasi.jadwal'))->name('jadwal');
-            Route::get('cuti', fn() => Inertia::render('roles.manajer-ppic.administrasi.cuti'))->name('cuti');
-            Route::get('slip-gaji', fn() => Inertia::render('roles.manajer-ppic.administrasi.slip-gaji'))->name('slip-gaji');
-            Route::get('rekening', fn() => Inertia::render('roles.manajer-ppic.administrasi.rekening'))->name('rekening');
-        });
-    });
-
-    Route::prefix('roles/staf-ppic')->middleware(['auth', 'role.permission'])->name('staf-ppic.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles.staf-ppic.dashboard'))->name('index');
-        
-        Route::prefix('perencanaan')->name('perencanaan.')->group(function () {
-            Route::get('pesanan', fn() => Inertia::render('roles.staf-ppic.perencanaan.pesanan'))->name('pesanan');
-            Route::get('jadwal-induk-produksi', fn() => Inertia::render('roles.staf-ppic.perencanaan.jadwal-induk-produksi'))->name('jadwal-induk-produksi');
-            Route::get('simulasi', fn() => Inertia::render('roles.staf-ppic.perencanaan.simulasi'))->name('simulasi');
-        });
-        
-        Route::prefix('inventaris')->name('inventaris.')->group(function () {
-            Route::get('stok', fn() => Inertia::render('roles.staf-ppic.inventaris.stok'))->name('stok');
-            Route::get('mrp', fn() => Inertia::render('roles.staf-ppic.inventaris.mrp'))->name('mrp');
-            Route::get('pembelian', fn() => Inertia::render('roles.staf-ppic.inventaris.pembelian'))->name('pembelian');
-        });
-        
-        Route::prefix('monitoring')->name('monitoring.')->group(function () {
-            Route::get('status', fn() => Inertia::render('roles.staf-ppic.monitoring.status'))->name('status');
-            Route::get('kapasitas', fn() => Inertia::render('roles.staf-ppic.monitoring.kapasitas'))->name('kapasitas');
-        });
-        
-        Route::prefix('administrasi')->name('administrasi.')->group(function () {
-            Route::get('profil', fn() => Inertia::render('roles.staf-ppic.administrasi.profil'))->name('profil');
-            Route::get('jadwal', fn() => Inertia::render('roles.staf-ppic.administrasi.jadwal'))->name('jadwal');
-            Route::get('cuti', fn() => Inertia::render('roles.staf-ppic.administrasi.cuti'))->name('cuti');
-            Route::get('slip-gaji', fn() => Inertia::render('roles.staf-ppic.administrasi.slip-gaji'))->name('slip-gaji');
-            Route::get('rekening', fn() => Inertia::render('roles.staf-ppic.administrasi.rekening'))->name('rekening');
+            Route::get('profil', fn() => Inertia::render('roles.ppic.administrasi.profil'))->name('profil');
+            Route::get('jadwal', fn() => Inertia::render('roles.ppic.administrasi.jadwal'))->name('jadwal');
+            Route::get('cuti', fn() => Inertia::render('roles.ppic.administrasi.cuti'))->name('cuti');
+            Route::get('slip-gaji', fn() => Inertia::render('roles.ppic.administrasi.slip-gaji'))->name('slip-gaji');
+            Route::get('rekening', fn() => Inertia::render('roles.ppic.administrasi.rekening'))->name('rekening');
         });
     });
 
     /*
     |--------------------------------------------------------------------------
-    | Manajer Produksi Routes
+    | Produksi Routes (Shared)
     |--------------------------------------------------------------------------
     */
-    Route::prefix('roles/manajer-produksi-kayu')->middleware(['auth', 'role.permission'])->name('manajer-produksi-kayu.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles.manajer-produksi-kayu.dashboard'))->name('index');
+    Route::prefix('roles/produksi')->middleware(['auth', 'role.permission'])->name('produksi.')->group(function () {
+        Route::get('/', fn() => Inertia::render('roles.produksi.dashboard'))->name('index');
         
         Route::prefix('manajemen-produksi')->name('manajemen-produksi.')->group(function () {
-            Route::get('perintah-kerja', fn() => Inertia::render('roles.manajer-produksi-kayu.manajemen-produksi.perintah-kerja'))->name('perintah-kerja');
-            Route::get('alokasi-tugas', fn() => Inertia::render('roles.manajer-produksi-kayu.manajemen-produksi.alokasi-tugas'))->name('alokasi-tugas');
-            Route::get('monitoring-progres', fn() => Inertia::render('roles.manajer-produksi-kayu.manajemen-produksi.monitoring-progres'))->name('monitoring-progres');
-            Route::get('pengerjaan-ulang', fn() => Inertia::render('roles.manajer-produksi-kayu.manajemen-produksi.pengerjaan-ulang'))->name('pengerjaan-ulang');
+            Route::get('perintah-kerja', fn() => Inertia::render('roles.produksi.manajemen-produksi.perintah-kerja'))->name('perintah-kerja');
+            Route::get('alokasi-tugas', fn() => Inertia::render('roles.produksi.manajemen-produksi.alokasi-tugas'))->name('alokasi-tugas');
+            Route::get('monitoring-progres', fn() => Inertia::render('roles.produksi.manajemen-produksi.monitoring-progres'))->name('monitoring-progres');
+            Route::get('pengerjaan-ulang', fn() => Inertia::render('roles.produksi.manajemen-produksi.pengerjaan-ulang'))->name('pengerjaan-ulang');
         });
         
-        Route::prefix('laporan')->name('laporan.')->group(function () {
-            Route::get('output-harian', fn() => Inertia::render('roles.manajer-produksi-kayu.laporan.output-harian'))->name('output-harian');
-            Route::get('analisis-kualitas', fn() => Inertia::render('roles.manajer-produksi-kayu.laporan.analisis-kualitas'))->name('analisis-kualitas');
-            Route::get('kinerja-crew', fn() => Inertia::render('roles.manajer-produksi-kayu.laporan.kinerja-crew'))->name('kinerja-crew');
-            Route::get('direksi', fn() => Inertia::render('roles.manajer-produksi-kayu.laporan.direksi'))->name('direksi');
+        Route::prefix('planning')->name('planning.')->group(function () {
+            Route::get('/', fn() => Inertia::render('roles.produksi.planning.index'))->name('index');
         });
         
-        Route::prefix('administrasi-pribadi')->name('administrasi-pribadi.')->group(function () {
-            Route::get('profil', fn() => Inertia::render('roles.manajer-produksi-kayu.administrasi-pribadi.profil'))->name('profil');
-            Route::get('jadwal', fn() => Inertia::render('roles.manajer-produksi-kayu.administrasi-pribadi.jadwal'))->name('jadwal');
-            Route::get('cuti', fn() => Inertia::render('roles.manajer-produksi-kayu.administrasi-pribadi.cuti'))->name('cuti');
-            Route::get('slip-gaji', fn() => Inertia::render('roles.manajer-produksi-kayu.administrasi-pribadi.slip-gaji'))->name('slip-gaji');
-            Route::get('rekening', fn() => Inertia::render('roles.manajer-produksi-kayu.administrasi-pribadi.rekening'))->name('rekening');
+        Route::prefix('quality-control')->name('quality-control.')->group(function () {
+            Route::get('/', fn() => Inertia::render('roles.produksi.quality-control.index'))->name('index');
+        });
+        
+        Route::prefix('reports')->name('reports.')->group(function () {
+            Route::get('/', fn() => Inertia::render('roles.produksi.reports.index'))->name('index');
         });
     });
 
-    Route::prefix('roles/manajer-produksi-besi')->middleware(['auth', 'role.permission'])->name('manajer-produksi-besi.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles.manajer-produksi-besi.dashboard'))->name('index');
+    /*
+    |--------------------------------------------------------------------------
+    | Produksi Kayu Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('roles/produksi-kayu')->middleware(['auth', 'role.permission'])->name('produksi-kayu.')->group(function () {
+        Route::get('/', fn() => Inertia::render('roles.produksi-kayu.dashboard'))->name('index');
         
         Route::prefix('manajemen-produksi')->name('manajemen-produksi.')->group(function () {
-            Route::get('perintah-kerja', fn() => Inertia::render('roles.manajer-produksi-besi.manajemen-produksi.perintah-kerja'))->name('perintah-kerja');
-            Route::get('alokasi-tugas', fn() => Inertia::render('roles.manajer-produksi-besi.manajemen-produksi.alokasi-tugas'))->name('alokasi-tugas');
-            Route::get('monitoring-progres', fn() => Inertia::render('roles.manajer-produksi-besi.manajemen-produksi.monitoring-progres'))->name('monitoring-progres');
-            Route::get('pengerjaan-ulang', fn() => Inertia::render('roles.manajer-produksi-besi.manajemen-produksi.pengerjaan-ulang'))->name('pengerjaan-ulang');
+            Route::get('perintah-kerja', fn() => Inertia::render('roles.produksi-kayu.manajemen-produksi.perintah-kerja'))->name('perintah-kerja');
+            Route::get('alokasi-tugas', fn() => Inertia::render('roles.produksi-kayu.manajemen-produksi.alokasi-tugas'))->name('alokasi-tugas');
+            Route::get('monitoring-progres', fn() => Inertia::render('roles.produksi-kayu.manajemen-produksi.monitoring-progres'))->name('monitoring-progres');
+            Route::get('pengerjaan-ulang', fn() => Inertia::render('roles.produksi-kayu.manajemen-produksi.pengerjaan-ulang'))->name('pengerjaan-ulang');
         });
         
         Route::prefix('laporan')->name('laporan.')->group(function () {
-            Route::get('output-harian', fn() => Inertia::render('roles.manajer-produksi-besi.laporan.output-harian'))->name('output-harian');
-            Route::get('analisis-kualitas', fn() => Inertia::render('roles.manajer-produksi-besi.laporan.analisis-kualitas'))->name('analisis-kualitas');
-            Route::get('kinerja-crew', fn() => Inertia::render('roles.manajer-produksi-besi.laporan.kinerja-crew'))->name('kinerja-crew');
-            Route::get('direksi', fn() => Inertia::render('roles.manajer-produksi-besi.laporan.direksi'))->name('direksi');
+            Route::get('output-harian', fn() => Inertia::render('roles.produksi-kayu.laporan.output-harian'))->name('output-harian');
+            Route::get('analisis-kualitas', fn() => Inertia::render('roles.produksi-kayu.laporan.analisis-kualitas'))->name('analisis-kualitas');
+            Route::get('kinerja-crew', fn() => Inertia::render('roles.produksi-kayu.laporan.kinerja-crew'))->name('kinerja-crew');
+            Route::get('direksi', fn() => Inertia::render('roles.produksi-kayu.laporan.direksi'))->name('direksi');
         });
         
         Route::prefix('administrasi-pribadi')->name('administrasi-pribadi.')->group(function () {
-            Route::get('profil', fn() => Inertia::render('roles.manajer-produksi-besi.administrasi-pribadi.profil'))->name('profil');
-            Route::get('jadwal', fn() => Inertia::render('roles.manajer-produksi-besi.administrasi-pribadi.jadwal'))->name('jadwal');
-            Route::get('cuti', fn() => Inertia::render('roles.manajer-produksi-besi.administrasi-pribadi.cuti'))->name('cuti');
-            Route::get('slip-gaji', fn() => Inertia::render('roles.manajer-produksi-besi.administrasi-pribadi.slip-gaji'))->name('slip-gaji');
-            Route::get('rekening', fn() => Inertia::render('roles.manajer-produksi-besi.administrasi-pribadi.rekening'))->name('rekening');
+            Route::get('profil', fn() => Inertia::render('roles.produksi-kayu.administrasi-pribadi.profil'))->name('profil');
+            Route::get('jadwal', fn() => Inertia::render('roles.produksi-kayu.administrasi-pribadi.jadwal'))->name('jadwal');
+            Route::get('cuti', fn() => Inertia::render('roles.produksi-kayu.administrasi-pribadi.cuti'))->name('cuti');
+            Route::get('slip-gaji', fn() => Inertia::render('roles.produksi-kayu.administrasi-pribadi.slip-gaji'))->name('slip-gaji');
+            Route::get('rekening', fn() => Inertia::render('roles.produksi-kayu.administrasi-pribadi.rekening'))->name('rekening');
+        });
+    });
+
+    Route::prefix('roles/produksi-besi')->middleware(['auth', 'role.permission'])->name('produksi-besi.')->group(function () {
+        Route::get('/', fn() => Inertia::render('roles.produksi-besi.dashboard'))->name('index');
+        
+        Route::prefix('manajemen-produksi')->name('manajemen-produksi.')->group(function () {
+            Route::get('perintah-kerja', fn() => Inertia::render('roles.produksi-besi.manajemen-produksi.perintah-kerja'))->name('perintah-kerja');
+            Route::get('alokasi-tugas', fn() => Inertia::render('roles.produksi-besi.manajemen-produksi.alokasi-tugas'))->name('alokasi-tugas');
+            Route::get('monitoring-progres', fn() => Inertia::render('roles.produksi-besi.manajemen-produksi.monitoring-progres'))->name('monitoring-progres');
+            Route::get('pengerjaan-ulang', fn() => Inertia::render('roles.produksi-besi.manajemen-produksi.pengerjaan-ulang'))->name('pengerjaan-ulang');
+        });
+        
+        Route::prefix('laporan')->name('laporan.')->group(function () {
+            Route::get('output-harian', fn() => Inertia::render('roles.produksi-besi.laporan.output-harian'))->name('output-harian');
+            Route::get('analisis-kualitas', fn() => Inertia::render('roles.produksi-besi.laporan.analisis-kualitas'))->name('analisis-kualitas');
+            Route::get('kinerja-crew', fn() => Inertia::render('roles.produksi-besi.laporan.kinerja-crew'))->name('kinerja-crew');
+            Route::get('direksi', fn() => Inertia::render('roles.produksi-besi.laporan.direksi'))->name('direksi');
+        });
+        
+        Route::prefix('administrasi-pribadi')->name('administrasi-pribadi.')->group(function () {
+            Route::get('profil', fn() => Inertia::render('roles.produksi-besi.administrasi-pribadi.profil'))->name('profil');
+            Route::get('jadwal', fn() => Inertia::render('roles.produksi-besi.administrasi-pribadi.jadwal'))->name('jadwal');
+            Route::get('cuti', fn() => Inertia::render('roles.produksi-besi.administrasi-pribadi.cuti'))->name('cuti');
+            Route::get('slip-gaji', fn() => Inertia::render('roles.produksi-besi.administrasi-pribadi.slip-gaji'))->name('slip-gaji');
+            Route::get('rekening', fn() => Inertia::render('roles.produksi-besi.administrasi-pribadi.rekening'))->name('rekening');
         });
     });
 
@@ -575,40 +480,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
     | Marketing Routes
     |--------------------------------------------------------------------------
     */
-            Route::prefix('roles/manajer-marketing')->middleware(['auth', 'role.permission'])->name('manajer-marketing.')->group(function () {
-                Route::get('/', fn() => Inertia::render('roles.manajer-marketing.dashboard'))->name('index');
-                Route::get('crm', [MarketingPesananController::class, 'index'])->name('crm.index');
-        Route::get('analitik', fn() => Inertia::render('roles.manajer-marketing.analitik'))->name('analitik');
+    Route::prefix('roles/marketing')->middleware(['auth', 'role.permission'])->name('marketing.')->group(function () {
+        Route::get('/', fn() => Inertia::render('roles.marketing.dashboard'))->name('index');
+        Route::get('crm', [MarketingPesananController::class, 'index'])->name('crm.index');
+        Route::get('analitik', fn() => Inertia::render('roles.marketing.analitik'))->name('analitik');
         
         Route::prefix('campaigns')->name('kampanye.')->group(function () {
-            Route::get('email', fn() => Inertia::render('roles.manajer-marketing.campaigns.email'))->name('email');
-            Route::get('sosial', fn() => Inertia::render('roles.manajer-marketing.campaigns.sosial'))->name('sosial');
+            Route::get('email', fn() => Inertia::render('roles.marketing.campaigns.email'))->name('email');
+            Route::get('sosial', fn() => Inertia::render('roles.marketing.campaigns.sosial'))->name('sosial');
         });
         
         Route::prefix('reports')->name('laporan.')->group(function () {
-            Route::get('direksi', fn() => Inertia::render('roles.manajer-marketing.reports.direksi'))->name('direksi');
+            Route::get('direksi', fn() => Inertia::render('roles.marketing.reports.direksi'))->name('direksi');
         });
         
         Route::prefix('administrasi-pribadi')->name('administrasi-pribadi.')->group(function () {
-            Route::get('profil', fn() => Inertia::render('roles.manajer-marketing.administrasi-pribadi.profil'))->name('profil');
-            Route::get('jadwal', fn() => Inertia::render('roles.manajer-marketing.administrasi-pribadi.jadwal'))->name('jadwal');
-            Route::get('cuti', fn() => Inertia::render('roles.manajer-marketing.administrasi-pribadi.cuti'))->name('cuti');
-            Route::get('slip-gaji', fn() => Inertia::render('roles.manajer-marketing.administrasi-pribadi.slip-gaji'))->name('slip-gaji');
-            Route::get('rekening', fn() => Inertia::render('roles.manajer-marketing.administrasi-pribadi.rekening'))->name('rekening');
-        });
-    });
-
-    Route::prefix('roles/staf-marketing')->middleware(['auth', 'role.permission'])->name('staf-marketing.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles.marketing.index'))->name('index');
-        Route::get('crm', fn() => Inertia::render('roles.marketing.crm'))->name('crm');
-        Route::get('eksekusi-kampanye', fn() => Inertia::render('roles.marketing.eksekusi-kampanye'))->name('eksekusi-kampanye');
-        
-        Route::prefix('administrasi-pribadi')->name('administrasi-pribadi.')->group(function () {
-            Route::get('profil', fn() => Inertia::render('roles.marketing.profil'))->name('profil');
-            Route::get('jadwal', fn() => Inertia::render('roles.marketing.jadwal'))->name('jadwal');
-            Route::get('cuti', fn() => Inertia::render('roles.marketing.cuti'))->name('cuti');
-            Route::get('slip-gaji', fn() => Inertia::render('roles.marketing.slip-gaji'))->name('slip-gaji');
-            Route::get('rekening', fn() => Inertia::render('roles.marketing.rekening'))->name('rekening');
+            Route::get('profil', fn() => Inertia::render('roles.marketing.administrasi-pribadi.profil'))->name('profil');
+            Route::get('jadwal', fn() => Inertia::render('roles.marketing.administrasi-pribadi.jadwal'))->name('jadwal');
+            Route::get('cuti', fn() => Inertia::render('roles.marketing.administrasi-pribadi.cuti'))->name('cuti');
+            Route::get('slip-gaji', fn() => Inertia::render('roles.marketing.administrasi-pribadi.slip-gaji'))->name('slip-gaji');
+            Route::get('rekening', fn() => Inertia::render('roles.marketing.administrasi-pribadi.rekening'))->name('rekening');
         });
     });
 
@@ -669,47 +560,47 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Manajer Marketing Routes
+    | Marketing Routes (Extended)
     |--------------------------------------------------------------------------
     */
-    Route::prefix('roles/manajer-marketing')->middleware(['auth', 'role.permission'])->name('manajer-marketing.')->group(function () {
-        Route::get('/', fn() => Inertia::render('roles.manajer-marketing.dashboard'))->name('index');
+    Route::prefix('roles/marketing')->middleware(['auth', 'role.permission'])->name('marketing.')->group(function () {
+        Route::get('/', fn() => Inertia::render('roles.marketing.dashboard'))->name('index');
         
-                    Route::prefix('crm')->name('crm.')->group(function () {
-                        Route::get('/', [MarketingPesananController::class, 'index'])->name('index'); // Updated CRM index
-                        Route::get('leads', fn() => Inertia::render('roles.manajer-marketing.crm.leads'))->name('leads');
-                        Route::get('customers', fn() => Inertia::render('roles.manajer-marketing.crm.customers'))->name('customers');
-                        Route::get('opportunities', fn() => Inertia::render('roles.manajer-marketing.crm.opportunities'))->name('opportunities');
-                    });
-                    Route::post('pesanan', [MarketingPesananController::class, 'store'])->name('pesanan.store');
-                    Route::put('pesanan/{produkJual}/confirm', [MarketingPesananController::class, 'confirm'])->name('pesanan.confirm');
-                    Route::put('pesanan/{produkJual}/reject', [MarketingPesananController::class, 'reject'])->name('pesanan.reject');
-                    Route::put('pesanan/{produkJual}/cancel', [MarketingPesananController::class, 'cancel'])->name('pesanan.cancel');
-                    Route::put('pesanan/{produkJual}/banding', [MarketingPesananController::class, 'banding'])->name('pesanan.banding');
-                    Route::put('pesanan/{produkJual}/banding-tenggat', [MarketingPesananController::class, 'bandingTenggat'])->name('pesanan.banding-tenggat');        
+        Route::prefix('crm')->name('crm.')->group(function () {
+            Route::get('/', [MarketingPesananController::class, 'index'])->name('index'); // Updated CRM index
+            Route::get('leads', fn() => Inertia::render('roles.marketing.crm.leads'))->name('leads');
+            Route::get('customers', fn() => Inertia::render('roles.marketing.crm.customers'))->name('customers');
+            Route::get('opportunities', fn() => Inertia::render('roles.marketing.crm.opportunities'))->name('opportunities');
+        });
+        Route::post('pesanan', [MarketingPesananController::class, 'store'])->name('pesanan.store');
+        Route::put('pesanan/{produkJual}/confirm', [MarketingPesananController::class, 'confirm'])->name('pesanan.confirm');
+        Route::put('pesanan/{produkJual}/reject', [MarketingPesananController::class, 'reject'])->name('pesanan.reject');
+        Route::put('pesanan/{produkJual}/cancel', [MarketingPesananController::class, 'cancel'])->name('pesanan.cancel');
+        Route::put('pesanan/{produkJual}/banding', [MarketingPesananController::class, 'banding'])->name('pesanan.banding');
+        Route::put('pesanan/{produkJual}/banding-tenggat', [MarketingPesananController::class, 'bandingTenggat'])->name('pesanan.banding-tenggat');        
         Route::prefix('analitik')->name('analitik.')->group(function () {
-            Route::get('penjualan', fn() => Inertia::render('roles.manajer-marketing.analitik.penjualan'))->name('penjualan');
-            Route::get('market-trends', fn() => Inertia::render('roles.manajer-marketing.analitik.market-trends'))->name('market-trends');
-            Route::get('customer-behavior', fn() => Inertia::render('roles.manajer-marketing.analitik.customer-behavior'))->name('customer-behavior');
+            Route::get('penjualan', fn() => Inertia::render('roles.marketing.analitik.penjualan'))->name('penjualan');
+            Route::get('market-trends', fn() => Inertia::render('roles.marketing.analitik.market-trends'))->name('market-trends');
+            Route::get('customer-behavior', fn() => Inertia::render('roles.marketing.analitik.customer-behavior'))->name('customer-behavior');
         });
         
         Route::prefix('kampanye')->name('kampanye.')->group(function () {
-            Route::get('perencanaan', fn() => Inertia::render('roles.manajer-marketing.kampanye.perencanaan'))->name('perencanaan');
-            Route::get('eksekusi', fn() => Inertia::render('roles.manajer-marketing.kampanye.eksekusi'))->name('eksekusi');
-            Route::get('evaluasi', fn() => Inertia::render('roles.manajer-marketing.kampanye.evaluasi'))->name('evaluasi');
+            Route::get('perencanaan', fn() => Inertia::render('roles.marketing.kampanye.perencanaan'))->name('perencanaan');
+            Route::get('eksekusi', fn() => Inertia::render('roles.marketing.kampanye.eksekusi'))->name('eksekusi');
+            Route::get('evaluasi', fn() => Inertia::render('roles.marketing.kampanye.evaluasi'))->name('evaluasi');
         });
         
         Route::prefix('laporan')->name('laporan.')->group(function () {
-            Route::get('bulanan', fn() => Inertia::render('roles.manajer-marketing.laporan.bulanan'))->name('bulanan');
-            Route::get('direksi', fn() => Inertia::render('roles.manajer-marketing.laporan.direksi'))->name('direksi');
+            Route::get('bulanan', fn() => Inertia::render('roles.marketing.laporan.bulanan'))->name('bulanan');
+            Route::get('direksi', fn() => Inertia::render('roles.marketing.laporan.direksi'))->name('direksi');
         });
         
         Route::prefix('administrasi-pribadi')->name('administrasi-pribadi.')->group(function () {
-            Route::get('profil', fn() => Inertia::render('roles.manajer-marketing.administrasi-pribadi.profil'))->name('profil');
-            Route::get('jadwal', fn() => Inertia::render('roles.manajer-marketing.administrasi-pribadi.jadwal'))->name('jadwal');
-            Route::get('cuti', fn() => Inertia::render('roles.manajer-marketing.administrasi-pribadi.cuti'))->name('cuti');
-            Route::get('slip-gaji', fn() => Inertia::render('roles.manajer-marketing.administrasi-pribadi.slip-gaji'))->name('slip-gaji');
-            Route::get('rekening', fn() => Inertia::render('roles.manajer-marketing.administrasi-pribadi.rekening'))->name('rekening');
+            Route::get('profil', fn() => Inertia::render('roles.marketing.administrasi-pribadi.profil'))->name('profil');
+            Route::get('jadwal', fn() => Inertia::render('roles.marketing.administrasi-pribadi.jadwal'))->name('jadwal');
+            Route::get('cuti', fn() => Inertia::render('roles.marketing.administrasi-pribadi.cuti'))->name('cuti');
+            Route::get('slip-gaji', fn() => Inertia::render('roles.marketing.administrasi-pribadi.slip-gaji'))->name('slip-gaji');
+            Route::get('rekening', fn() => Inertia::render('roles.marketing.administrasi-pribadi.rekening'))->name('rekening');
         });
     });
 
@@ -740,6 +631,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('slip-gaji', fn() => Inertia::render('roles.staf-marketing.administrasi-pribadi.slip-gaji'))->name('slip-gaji');
             Route::get('rekening', fn() => Inertia::render('roles.staf-marketing.administrasi-pribadi.rekening'))->name('rekening');
         });
+    });
+
+    // Rute untuk Marketing
+    Route::middleware(['auth'])->prefix('manajer-marketing')->name('manajer-marketing.')->group(function () {
+        Route::get('crm', [MarketingPesananController::class, 'index'])->name('crm.index');
+        Route::post('pesanan', [MarketingPesananController::class, 'store'])->name('pesanan.store');
+        Route::put('pesanan/{produkJual}/confirm', [MarketingPesananController::class, 'confirm'])->name('pesanan.confirm');
     });
 
     /*
@@ -824,11 +722,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::prefix('payroll')->middleware(['auth', 'role.permission'])->group(function () {
-        Route::get('/', [\App\Http\Controllers\ManajerHrd\PayrollController::class, 'index'])->name('payroll.index');
-        Route::post('/process', [\App\Http\Controllers\ManajerHrd\PayrollController::class, 'process'])->name('payroll.process');
-        Route::get('/batch/{batch}', [\App\Http\Controllers\ManajerHrd\PayrollController::class, 'showBatch'])->name('payroll.batch.show');
-        Route::post('/batch/{batch}/approve', [\App\Http\Controllers\ManajerHrd\PayrollController::class, 'approveBatch'])->name('payroll.batch.approve');
-        Route::get('/employee/{employee}/slip', [\App\Http\Controllers\ManajerHrd\PayrollController::class, 'showSlip'])->name('payroll.slip.show');
+        Route::get('/', [\App\Http\Controllers\Hrd\PayrollController::class, 'index'])->name('payroll.index');
+        Route::post('/process', [\App\Http\Controllers\Hrd\PayrollController::class, 'process'])->name('payroll.process');
+        Route::get('/batch/{batch}', [\App\Http\Controllers\Hrd\PayrollController::class, 'showBatch'])->name('payroll.batch.show');
+        Route::post('/batch/{batch}/approve', [\App\Http\Controllers\Hrd\PayrollController::class, 'approveBatch'])->name('payroll.batch.approve');
+        Route::get('/employee/{employee}/slip', [\App\Http\Controllers\Hrd\PayrollController::class, 'showSlip'])->name('payroll.slip.show');
     });
 
 
@@ -867,8 +765,8 @@ Route::prefix('api')->middleware(['web', 'auth'])->name('api.')->group(function 
 
         Route::get('/batches', [PayrollController::class, 'getBatches'])->name('batches');
         Route::get('/employees', [PayrollController::class, 'getEmployees'])->name('employees');
-        Route::get('/settings', [\App\Http\Controllers\ManajerHrd\PayrollSettingsController::class, 'index'])->name('settings');
-        Route::post('/settings', [\App\Http\Controllers\ManajerHrd\PayrollSettingsController::class, 'update'])->name('settings.update');
+        Route::get('/settings', [\App\Http\Controllers\Hrd\PayrollSettingsController::class, 'index'])->name('settings');
+        Route::post('/settings', [\App\Http\Controllers\Hrd\PayrollSettingsController::class, 'update'])->name('settings.update');
         Route::post('/validate', [PayrollController::class, 'validate'])->name('validate');
         Route::post('/submit', [PayrollController::class, 'submitBatch'])->name('submit');
         Route::post('/cancel', [PayrollController::class, 'cancelSubmission'])->name('cancel');

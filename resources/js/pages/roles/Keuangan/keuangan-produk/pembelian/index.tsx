@@ -114,7 +114,7 @@ export default function Pembelian() {
 
     // Handles "Terima" or "Tolak" on a single item
     const handleItemStatusChange = (itemId: number, newStatus: 'Diterima' | 'Ditolak') => {
-        router.put(route('manajer-keuangan.keuangan-produk.pembelian.item.update-status', { item: itemId }),
+        router.put(route('keuangan.keuangan-produk.pembelian.item.update-status', { item: itemId }),
             { status_item: newStatus },
             {
                 preserveScroll: true,
@@ -129,7 +129,7 @@ export default function Pembelian() {
         const confirmed = window.confirm("Anda yakin ingin finalisasi review untuk batch ini? Status item yang masih 'Pending' akan ditolak.");
         if (!confirmed) return;
 
-        router.put(route('manajer-keuangan.keuangan-produk.pembelian.batch.update-status', { batch: batchId }),
+        router.put(route('keuangan.keuangan-produk.pembelian.batch.update-status', { batch: batchId }),
             { status_batch: 'Diajukan' },
             {
                 preserveScroll: true,
@@ -144,7 +144,7 @@ export default function Pembelian() {
         const confirmed = window.confirm("Anda yakin ingin menolak seluruh permintaan pada batch ini?");
         if (!confirmed) return;
 
-        router.put(route('manajer-keuangan.keuangan-produk.pembelian.batch.update-status', { batch: batchId }),
+        router.put(route('keuangan.keuangan-produk.pembelian.batch.update-status', { batch: batchId }),
             { status_batch: 'Ditolak' },
             {
                 preserveScroll: true,
@@ -164,7 +164,7 @@ export default function Pembelian() {
         const confirmed = window.confirm("Anda yakin ingin memproses pembayaran untuk batch ini? Pastikan total harga dan sumber dana sudah benar.");
         if (!confirmed) return;
 
-        router.post(route('manajer-keuangan.keuangan-produk.pembelian.batch.process-payment', { batch: batchId }),
+        router.post(route('keuangan.keuangan-produk.pembelian.batch.process-payment', { batch: batchId }),
             { sumber_dana_id: sumberDanaId },
             {
                 preserveScroll: true,
@@ -181,9 +181,9 @@ export default function Pembelian() {
         <AuthenticatedLayout
             title="Pembelian Bahan Baku"
             breadcrumbs={[
-                { title: 'Dashboard', href: route('manajer-keuangan.index') },
+                { title: 'Dashboard', href: route('keuangan.index') },
                 { title: 'Keuangan Produk', href: '#' },
-                { title: 'Pembelian Bahan Baku', href: route('manajer-keuangan.keuangan-produk.pembelian') }
+                { title: 'Pembelian Bahan Baku', href: route('keuangan.keuangan-produk.pembelian') }
             ]}
         >
             <Head title="Pembelian Bahan Baku" />

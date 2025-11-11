@@ -27,7 +27,7 @@ class PpicPembelianController extends Controller
         // Fetch raw materials for the creation form
         $bahanBakuList = BahanBaku::all(['id', 'nama_bahan_baku', 'satuan_dasar', 'harga_standar']);
 
-        return Inertia::render('roles/manajer-ppic/inventaris/pembelian', [
+        return Inertia::render('roles/ppic/inventaris/pembelian', [
             'purchaseRequests' => $purchaseRequests,
             'bahanBakuList' => $bahanBakuList,
         ]);
@@ -89,7 +89,7 @@ class PpicPembelianController extends Controller
             $pembelianBahanBaku->items()->createMany($itemsData);
 
             DB::commit();
-            return redirect()->route('manajer-ppic.inventaris.pembelian.index')->with('success', 'Permintaan pembelian berhasil dibuat.');
+            return redirect()->route('ppic.inventaris.pembelian.index')->with('success', 'Permintaan pembelian berhasil dibuat.');
 
         } catch (\Exception $e) {
             DB::rollBack();

@@ -44,7 +44,7 @@ const MonitoringProduksiTab: React.FC<MonitoringProduksiTabProps> = ({ transaksi
         setLoading(true);
         try {
             const response = await fetch(
-                route('manajer-keuangan.keuangan-produk.transaksi-produk.index', {
+                route('keuangan.keuangan-produk.transaksi-produk.index', {
                     search: searchTerm,
                     bulan: selectedBulan === 'all' ? '' : selectedBulan,
                 })

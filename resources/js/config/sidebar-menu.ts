@@ -142,7 +142,7 @@ export function getMenuItems(role: string): NavItem[] {
     manajer_hrd: [
       {
         title: 'Dashboard',
-        href: '/roles/manajer-hrd',
+        href: '/roles/hrd',
         icon: LayoutGrid,
       },
       {
@@ -151,22 +151,22 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Daftar Karyawan',
-            href: '/roles/manajer-hrd/karyawan/daftar',
+            href: '/roles/hrd/karyawan/daftar',
             icon: Users,
           },
           {
             title: 'Demografi',
-            href: '/roles/manajer-hrd/karyawan/demografi',
+            href: '/roles/hrd/karyawan/demografi',
             icon: BarChart2,
           },
           {
             title: 'Kontrak & Status Kerja',
-            href: '/roles/manajer-hrd/karyawan/kontrak',
+            href: '/roles/hrd/karyawan/kontrak',
             icon: Briefcase,
           },
           {
             title: 'Laporan KPI',
-            href: '/roles/manajer-hrd/karyawan/laporan-kpi',
+            href: '/roles/hrd/karyawan/laporan-kpi',
             icon: Target,
           },
         ],
@@ -177,17 +177,17 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Presensi',
-            href: '/roles/manajer-hrd/manajemen-presensi/presensi',
+            href: '/roles/hrd/manajemen-presensi/presensi',
             icon: Clock,
           },
           {
             title: 'Pengajuan Izin & Lembur',
-            href: '/roles/manajer-hrd/manajemen-presensi/pengajuan',
+            href: '/roles/hrd/manajemen-presensi/pengajuan',
             icon: FileText,
           },
           {
             title: 'Pengaturan Jadwal',
-            href: '/roles/manajer-hrd/manajemen-presensi/jadwal',
+            href: '/roles/hrd/manajemen-presensi/jadwal',
             icon: Calendar,
           },
         ],
@@ -198,17 +198,17 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Proses Penggajian',
-            href: '/roles/manajer-hrd/penggajian/proses',
+            href: '/roles/hrd/penggajian/proses',
             icon: Settings,
           },
           {
             title: 'Riwayat Penggajian',
-            href: '/roles/manajer-hrd/penggajian/riwayat',
+            href: '/roles/hrd/penggajian/riwayat',
             icon: FileText,
           },
           {
             title: 'Pengaturan Penggajian',
-            href: '/roles/manajer-hrd/penggajian/pengaturan',
+            href: '/roles/hrd/penggajian/pengaturan',
             icon: Settings,
           },
         ],
@@ -219,22 +219,22 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Surat Keputusan (SK)',
-            href: '/roles/manajer-hrd/administrasi/sk',
+            href: '/roles/hrd/administrasi/sk',
             icon: FileText,
           },
           {
             title: 'Dokumen & Arsip Digital',
-            href: '/roles/manajer-hrd/administrasi/dokumen',
+            href: '/roles/hrd/administrasi/dokumen',
             icon: Folder,
           },
           {
             title: 'Peraturan & SOP',
-            href: '/roles/manajer-hrd/administrasi/sop',
+            href: '/roles/hrd/administrasi/sop',
             icon: Settings,
           },
             {
             title: 'Profil Perusahaan',
-            href: '/roles/manajer-hrd/administrasi/profil-perusahaan',
+            href: '/roles/hrd/administrasi/profil-perusahaan',
             icon: Briefcase,
           },
         ],
@@ -245,22 +245,22 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Laporan Kehadiran',
-            href: '/roles/manajer-hrd/laporan/kehadiran',
+            href: '/roles/hrd/laporan/kehadiran',
             icon: Calendar,
           },
           {
             title: 'Laporan Turnover',
-            href: '/roles/manajer-hrd/laporan/turnover',
+            href: '/roles/hrd/laporan/turnover',
             icon: TrendingUp,
           },
           {
             title: 'Laporan Penggajian',
-            href: '/roles/manajer-hrd/laporan/penggajian',
+            href: '/roles/hrd/laporan/penggajian',
             icon: DollarSign,
           },
           {
             title: 'Laporan ke Direksi',
-            href: '/roles/manajer-hrd/laporan/direksi',
+            href: '/roles/hrd/laporan/direksi',
             icon: FileText,
           },
         ],
@@ -271,12 +271,12 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Buat Pengumuman',
-            href: '/roles/manajer-hrd/pengumuman/buat',
+            href: '/roles/hrd/pengumuman/buat',
             icon: FilePlus2,
           },
           {
             title: 'Riwayat Pengumuman',
-            href: '/roles/manajer-hrd/pengumuman/riwayat',
+            href: '/roles/hrd/pengumuman/riwayat',
             icon: ClipboardList,
           },
         ],
@@ -287,27 +287,27 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Profil',
-            href: '/roles/manajer-hrd/administrasi-pribadi/profil',
+            href: '/roles/hrd/administrasi-pribadi/profil',
             icon: User,
           },
           {
             title: 'Jadwal',
-            href: '/roles/manajer-hrd/administrasi-pribadi/jadwal',
+            href: '/roles/hrd/administrasi-pribadi/jadwal',
             icon: Calendar,
           },
           {
             title: 'Pengajuan Cuti',
-            href: '/roles/manajer-hrd/administrasi-pribadi/pengajuan-cuti',
+            href: '/roles/hrd/administrasi-pribadi/pengajuan-cuti',
             icon: FileText,
           },
           {
             title: 'Slip Gaji',
-            href: '/roles/manajer-hrd/administrasi-pribadi/slip-gaji',
+            href: '/roles/hrd/administrasi-pribadi/slip-gaji',
             icon: CreditCard,
           },
           {
             title: 'Kelola Rekening',
-            href: '/roles/manajer-hrd/administrasi-pribadi/kelola-rekening',
+            href: '/roles/hrd/administrasi-pribadi/kelola-rekening',
             icon: CreditCard,
           },
         ],
@@ -390,7 +390,7 @@ export function getMenuItems(role: string): NavItem[] {
     manajer_keuangan: [
       {
         title: 'Dashboard',
-        href: '/roles/manajer-keuangan',
+        href: '/roles/keuangan',
         icon: LayoutGrid,
       },
       {
@@ -399,22 +399,22 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Transaksi Penjualan',
-            href: '/roles/manajer-keuangan/keuangan-produk/transaksi',
+            href: '/roles/keuangan/keuangan-produk/transaksi',
             icon: ClipboardList,
           },
           {
             title: 'Pembelian Bahan Baku',
-            href: '/roles/manajer-keuangan/keuangan-produk/pembelian',
+            href: '/roles/keuangan/keuangan-produk/pembelian',
             icon: Package,
           },
           {
             title: 'Pengelolaan Persediaan & HPP',
-            href: '/roles/manajer-keuangan/keuangan-produk/persediaan',
+            href: '/roles/keuangan/keuangan-produk/persediaan',
             icon: ClipboardList,
           },
           {
             title: 'Penyesuaian Harga & Margin Laba',
-            href: '/roles/manajer-keuangan/keuangan-produk/harga',
+            href: '/roles/keuangan/keuangan-produk/harga',
             icon: TrendingUp,
           },
         ],
@@ -425,17 +425,17 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Pemasukan',
-            href: '/roles/manajer-keuangan/harian/pemasukan',
+            href: '/roles/keuangan/harian/pemasukan',
             icon: TrendingUp,
           },
           {
             title: 'Pengeluaran',
-            href: '/roles/manajer-keuangan/harian/pengeluaran',
+            href: '/roles/keuangan/harian/pengeluaran',
             icon: DollarSign,
           },
           {
             title: 'Sumber Dana',
-            href: '/roles/manajer-keuangan/harian/sumber-dana',
+            href: '/roles/keuangan/harian/sumber-dana',
             icon: CreditCard,
           },
         ],
@@ -446,12 +446,12 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Persetujuan Penggajian',
-            href: '/roles/manajer-keuangan/payroll/approval',
+            href: '/roles/keuangan/payroll/approval',
             icon: CheckCircle,
           },
           {
             title: 'Riwayat & Data Penggajian',
-            href: '/roles/manajer-keuangan/payroll/history-data',
+            href: '/roles/keuangan/payroll/history-data',
             icon: FileText,
           },
         ],
@@ -462,17 +462,17 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Rencana Anggaran',
-            href: '/roles/manajer-keuangan/budget/rencana',
+            href: '/roles/keuangan/budget/rencana',
             icon: Target,
           },
           {
             title: 'Realisasi Anggaran',
-            href: '/roles/manajer-keuangan/budget/realisasi',
+            href: '/roles/keuangan/budget/realisasi',
             icon: BarChart2,
           },
           {
             title: 'Monitoring Budget',
-            href: '/roles/manajer-keuangan/budget/monitoring',
+            href: '/roles/keuangan/budget/monitoring',
             icon: TrendingUp,
           },
         ],
@@ -483,22 +483,22 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Laporan Bulanan',
-            href: '/roles/manajer-keuangan/laporan/bulanan',
+            href: '/roles/keuangan/laporan/bulanan',
             icon: Calendar,
           },
           {
             title: 'Laporan Tahunan',
-            href: '/roles/manajer-keuangan/laporan/tahunan',
+            href: '/roles/keuangan/laporan/tahunan',
             icon: FileText,
           },
           {
             title: 'Neraca & Arus Kas',
-            href: '/roles/manajer-keuangan/laporan/neraca',
+            href: '/roles/keuangan/laporan/neraca',
             icon: BarChart2,
           },
           {
             title: 'Laporan ke Direksi',
-            href: '/roles/manajer-keuangan/laporan/direksi',
+            href: '/roles/keuangan/laporan/direksi',
             icon: FileText,
           },
         ],
@@ -509,12 +509,12 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Kode Akun & Chart of Account',
-            href: '/roles/manajer-keuangan/pengaturan/chart-account',
+            href: '/roles/keuangan/pengaturan/chart-account',
             icon: Settings,
           },
           {
             title: 'User Role (keuangan)',
-            href: '/roles/manajer-keuangan/pengaturan/user-role',
+            href: '/roles/keuangan/pengaturan/user-role',
             icon: Users,
           },
         ],
@@ -566,7 +566,7 @@ export function getMenuItems(role: string): NavItem[] {
       },
       {
         title: 'Manajemen Pelanggan (CRM)',
-        href: '/roles/manajer-marketing/crm',
+        href: '/roles/marketing/crm',
         icon: Users,
       },
       {
@@ -682,7 +682,7 @@ export function getMenuItems(role: string): NavItem[] {
     manajer_ppic: [
       {
         title: 'Dashboard',
-        href: '/roles/manajer-ppic',
+        href: '/roles/ppic',
         icon: LayoutGrid,
       },
       {
@@ -691,17 +691,17 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Antrean Pesanan Masuk',
-            href: '/roles/manajer-ppic/perencanaan/pesanan',
+            href: '/roles/ppic/perencanaan/pesanan',
             icon: ClipboardList,
           },
           {
             title: 'Jadwal Induk Produksi',
-            href: '/roles/manajer-ppic/perencanaan/jadwal-induk-produksi',
+            href: '/roles/ppic/perencanaan/jadwal-induk-produksi',
             icon: Calendar,
           },
           {
             title: 'Simulasi Jadwal',
-            href: '/roles/manajer-ppic/perencanaan/simulasi',
+            href: '/roles/ppic/perencanaan/simulasi',
             icon: Target,
           },
         ],
@@ -712,17 +712,17 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Stok Bahan Baku',
-            href: '/roles/manajer-ppic/inventaris/stok',
+            href: '/roles/ppic/inventaris/stok',
             icon: Package,
           },
           {
             title: 'Kebutuhan Material (MRP)',
-            href: '/roles/manajer-ppic/inventaris/mrp',
+            href: '/roles/ppic/inventaris/mrp',
             icon: ClipboardList,
           },
           {
             title: 'Permintaan Pembelian',
-            href: '/roles/manajer-ppic/inventaris/pembelian',
+            href: '/roles/ppic/inventaris/pembelian',
             icon: FileText,
           },
         ],
@@ -733,17 +733,17 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Status Jadwal Produksi',
-            href: '/roles/manajer-ppic/monitoring/status',
+            href: '/roles/ppic/monitoring/status',
             icon: TrendingUp,
           },
           {
             title: 'Analisis Kapasitas',
-            href: '/roles/manajer-ppic/monitoring/kapasitas',
+            href: '/roles/ppic/monitoring/kapasitas',
             icon: BarChart2,
           },
           {
             title: 'Laporan ke Direksi',
-            href: '/roles/manajer-ppic/monitoring/laporan-direksi',
+            href: '/roles/ppic/monitoring/laporan-direksi',
             icon: FileText,
           },
         ],
@@ -754,27 +754,27 @@ export function getMenuItems(role: string): NavItem[] {
         children: [
           {
             title: 'Profil',
-            href: '/roles/manajer-ppic/administrasi/profil',
+            href: '/roles/ppic/administrasi/profil',
             icon: User,
           },
           {
             title: 'Jadwal',
-            href: '/roles/manajer-ppic/administrasi/jadwal',
+            href: '/roles/ppic/administrasi/jadwal',
             icon: Calendar,
           },
           {
             title: 'Pengajuan Cuti',
-            href: '/roles/manajer-ppic/administrasi/cuti',
+            href: '/roles/ppic/administrasi/cuti',
             icon: FileText,
           },
           {
             title: 'Slip Gaji',
-            href: '/roles/manajer-ppic/administrasi/slip-gaji',
+            href: '/roles/ppic/administrasi/slip-gaji',
             icon: CreditCard,
           },
           {
             title: 'Kelola Rekening',
-            href: '/roles/manajer-ppic/administrasi/rekening',
+            href: '/roles/ppic/administrasi/rekening',
             icon: CreditCard,
           },
         ],

@@ -31,7 +31,7 @@ class PembelianBahanBakuController extends Controller
 
         $sumberDanas = SumberDana::where('tipe_sumber', 'Tunai')->orWhere('is_main_account', true)->get(['id', 'nama_sumber as name', 'saldo']); // Fetch only Tunai and main bank account
 
-        return Inertia::render('roles/Keuangan/keuangan-produk/pembelian/index', [
+        return Inertia::render('roles/keuangan/keuangan-produk/pembelian/index', [
             'pembelianBahanBaku' => $pembelianBahanBaku,
             'sumberDanas' => $sumberDanas, // Pass sumberDanas to the frontend
         ]);
@@ -330,7 +330,7 @@ class PembelianBahanBakuController extends Controller
         try {
             // Delete associated KeuanganPengeluaranHarian first if any
             KeuanganPengeluaranHarian::where('pembelian_bahan_baku_id', $pembelianBahanBaku->id)->delete();
-            
+
             $pembelianBahanBaku->delete(); // Items will be cascade deleted
 
             DB::commit();
@@ -353,7 +353,7 @@ class PembelianBahanBakuController extends Controller
 
         try {
             $item->update(['status_item' => $request->status_item]);
-            
+
             // Recalculate batch total price based on 'Diterima' items
             $batch = $item->pembelianBahanBaku;
             $newTotal = $batch->items()->where('status_item', 'Diterima')->sum('total_harga_item');
@@ -417,7 +417,7 @@ class PembelianBahanBakuController extends Controller
             if ($totalHargaBatch <= 0) {
                 throw new \Exception('Tidak ada item yang disetujui untuk dibayar.');
             }
-            
+
             // 3. Update batch total price just in case
             $batch->total_harga_batch = $totalHargaBatch;
 
@@ -453,7 +453,7 @@ class PembelianBahanBakuController extends Controller
                 'jenis_pengeluaran' => 'Pembelian Bahan Baku',
                 'amount' => $totalHargaBatch,
                 'status' => 'Final',
-                'sumber_dana_id' => $sumberDana->id,
+                'sumber_dana_id' => (int) $sumberDana->id,
                 'pembelian_bahan_baku_id' => $batch->id,
                 'saldo_sebelum' => $saldoSebelum,
                 'saldo_setelah' => $saldoSetelah,
@@ -461,7 +461,6 @@ class PembelianBahanBakuController extends Controller
 
             DB::commit();
             return redirect()->back()->with('success', 'Pembayaran berhasil diproses.');
-
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error processing payment: ' . $e->getMessage());

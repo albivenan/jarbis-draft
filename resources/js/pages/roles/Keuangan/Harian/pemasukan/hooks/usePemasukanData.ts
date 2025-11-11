@@ -171,11 +171,11 @@ export const usePemasukanData = (initialPemasukan: Pemasukan[]) => {
         let periodLabel = '';
         let comparisonLabel = 'vs Kemarin';
         let chartKeys: any[] = [];
-        let periodJenisTotals: { [key: string]: number } = {};
+        const periodJenisTotals: { [key: string]: number } = {};
         jenisPemasukanValues.forEach(jenis => periodJenisTotals[jenis] = 0);
-        let periodJenisCounts: { [key: string]: number } = {};
+        const periodJenisCounts: { [key: string]: number } = {};
         jenisPemasukanValues.forEach(jenis => periodJenisCounts[jenis] = 0);
-        let jenisPercentageChanges: { [key: string]: number } = {}; // New variable
+        const jenisPercentageChanges: { [key: string]: number } = {}; // New variable
 
         const lineKeys = jenisPemasukanValues.map(jenis => ({
             type: 'line',
@@ -461,7 +461,7 @@ export const usePemasukanData = (initialPemasukan: Pemasukan[]) => {
             periodLabel = `${periodOption.label} (${format(startDate, 'd MMM', { locale: id })}) - ${format(today, 'd MMM yyyy', { locale: id })}`;
             comparisonLabel = periodOption.comparisonLabel;
             let previousPeriodTotal = 0;
-            let previousPeriodJenisTotals: { [key: string]: number } = {}; // Initialize previousPeriodJenisTotals
+            const previousPeriodJenisTotals: { [key: string]: number } = {}; // Initialize previousPeriodJenisTotals
             jenisPemasukanValues.forEach(jenis => {
                 previousPeriodJenisTotals[jenis] = 0;
             });

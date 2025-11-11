@@ -25,7 +25,7 @@ class PesananController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('roles/manajer-ppic/perencanaan/pesanan/index', [
+        return Inertia::render('roles/ppic/perencanaan/pesanan/index', [
             'pesanan' => $pesanan,
             'filters' => $filters,
         ]);

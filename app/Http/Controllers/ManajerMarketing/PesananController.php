@@ -27,7 +27,7 @@ class PesananController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('roles/manajer-marketing/crm/index', [
+        return Inertia::render('roles/marketing/crm/index', [
             'pesanan' => $pesanan,
             'filters' => $filters,
         ]);
@@ -53,7 +53,7 @@ class PesananController extends Controller
             'diajukan_pada' => now(),
         ]);
 
-        return redirect()->route('manajer-marketing.crm.index')
+        return redirect()->route('marketing.crm.index')
             ->with('success', 'Pesanan baru berhasil diajukan.');
     }
 

@@ -27,7 +27,7 @@ export default function RekeningBankPage({sumberDanaUrl, rekeningBank = []}: Rek
   const { toast } = useToast(); // Initialize useToast
 
   const handleSetMainAccount = (sumberDanaId: number) => {
-    post(route('manajer-keuangan.harian.rekening-bank.set-main', sumberDanaId), {
+    post(route('keuangan.harian.rekening-bank.set-main', sumberDanaId), {
       onSuccess: () => {
         toast({
           title: "Berhasil!",
@@ -53,7 +53,7 @@ export default function RekeningBankPage({sumberDanaUrl, rekeningBank = []}: Rek
             <Link href={sumberDanaUrl}>
                 <Button variant="outline">Kembali</Button>
             </Link>
-            <Link href={route('manajer-keuangan.harian.rekening-bank.create')}>
+            <Link href={route('keuangan.harian.rekening-bank.create')}>
               <Button>Tambah Rekening Bank</Button>
             </Link>
         </div>
@@ -83,7 +83,7 @@ export default function RekeningBankPage({sumberDanaUrl, rekeningBank = []}: Rek
                   <p><strong>Atas Nama:</strong> {account.accountHolderName}</p>
                 </div>
                 <div className="flex gap-2 mt-4">
-                  <Link href={route('manajer-keuangan.harian.rekening-bank.edit', account.sumberDanaId)}>
+                  <Link href={route('keuangan.harian.rekening-bank.edit', account.sumberDanaId)}>
                     <Button variant="outline" size="sm">Edit</Button>
                   </Link>
                   {!account.isMainAccount && ( // Show "Jadikan Utama" button if not main account

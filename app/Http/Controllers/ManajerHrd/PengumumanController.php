@@ -12,7 +12,7 @@ class PengumumanController extends Controller
 {
     public function create()
     {
-        return Inertia::render('roles/manajer-hrd/pengumuman/buat/index');
+        return Inertia::render('roles/hrd/pengumuman/buat/index');
     }
 
     public function store(Request $request)
@@ -32,14 +32,14 @@ class PengumumanController extends Controller
             'id_user' => Auth::id(),
         ]));
 
-        return redirect()->route('manajer-hrd.pengumuman.riwayat')->with('success', 'Pengumuman berhasil dibuat!');
+        return redirect()->route('hrd.pengumuman.riwayat')->with('success', 'Pengumuman berhasil dibuat!');
     }
 
     public function index()
     {
         $pengumuman = Pengumuman::with('user')->latest()->paginate(10);
 
-        return Inertia::render('roles/manajer-hrd/pengumuman/riwayat/index', [
+        return Inertia::render('roles/hrd/pengumuman/riwayat/index', [
             'pengumuman' => $pengumuman,
         ]);
     }
@@ -47,7 +47,7 @@ class PengumumanController extends Controller
     public function show(Pengumuman $pengumuman)
     {
         $pengumuman->load('user'); // Eager load the user relationship
-        return Inertia::render('roles/manajer-hrd/pengumuman/riwayat/show/index', [
+        return Inertia::render('roles/hrd/pengumuman/riwayat/show/index', [
             'pengumuman' => $pengumuman,
         ]);
     }
@@ -55,6 +55,6 @@ class PengumumanController extends Controller
     public function destroy(Pengumuman $pengumuman)
     {
         $pengumuman->delete();
-        return redirect()->route('manajer-hrd.pengumuman.riwayat')->with('success', 'Pengumuman berhasil dihapus!');
+        return redirect()->route('hrd.pengumuman.riwayat')->with('success', 'Pengumuman berhasil dihapus!');
     }
 }

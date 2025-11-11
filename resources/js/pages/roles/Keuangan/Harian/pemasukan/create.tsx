@@ -123,7 +123,7 @@ interface FormDataType {
             return; // Prevent form submission if there are local errors
         }
 
-        post(route('manajer-keuangan.harian.pemasukan.store'), {
+        post(route('keuangan.harian.pemasukan.store'), {
             onSuccess: () => {
                 fetchData(); // Re-fetch data to update balances
                 // Optionally, you can reset the form here if needed
@@ -140,7 +140,7 @@ interface FormDataType {
                 <header className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         {/* We assume this route name exists */}
-                        <Link href={route('manajer-keuangan.harian.pemasukan.index')}>
+                        <Link href={route('keuangan.harian.pemasukan.index')}>
                             <ArrowLeft className="h-6 w-6" />
                         </Link>
                         <div>
@@ -288,7 +288,7 @@ interface FormDataType {
                             </div>
 
                             <div className="flex justify-end gap-4 pt-4">
-                                <Link href={route('manajer-keuangan.harian.pemasukan.index')} className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2">
+                                <Link href={route('keuangan.harian.pemasukan.index')} className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2">
                                     Batal
                                 </Link>
                                 <Button type="submit" disabled={processing}>

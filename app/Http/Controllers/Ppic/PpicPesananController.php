@@ -35,7 +35,7 @@ class PpicPesananController extends Controller
 
         $pesanan = $query->latest()->paginate(10); // Paginate with 10 items per page
 
-        return Inertia::render('roles/manajer-ppic/perencanaan/pesanan/index', [
+        return Inertia::render('roles/ppic/perencanaan/pesanan/index', [
             'pesanan' => $pesanan,
             'filters' => $request->only(['search', 'status']),
         ]);
@@ -49,7 +49,7 @@ class PpicPesananController extends Controller
         // Placeholder for data needed for the create form
         $products = []; // Replace with actual product data later
 
-        return Inertia::render('roles/manajer-ppic/perencanaan/pesanan/create', [
+        return Inertia::render('roles/ppic/perencanaan/pesanan/create', [
             'products' => $products,
         ]);
     }
