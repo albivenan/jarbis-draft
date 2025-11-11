@@ -1,0 +1,2 @@
+export const formatCurrency = (value: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(value);
+export const formatCompact = (value: number) => new Intl.NumberFormat('id-ID', { notation: 'compact' }).format(value);
